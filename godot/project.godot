@@ -10,10 +10,19 @@ config_version=5
 
 [application]
 
-config/name="BattleRoyale16"
+config/name="AlphaD00m"
 run/main_scene="res://src/world.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[audio]
+
+manager/sound/bus="Sound"
+manager/sound/pool_1D_size=16
+manager/sound/pool_2D_size=16
+manager/sound/pool_3D_size=16
+manager/sound/max_polyphony=32
+manager/music/bus="Music"
 
 [autoload]
 
