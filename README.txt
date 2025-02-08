@@ -20,5 +20,7 @@ Explosion sound:
 
 Music:
  - https://opengameart.org/content/ultimate-midi-pack
+ - (Midi files edited for dynamic instrument changing)
+ - (Also synthesized in a different sound font)
 
 Various sound effects by Kenney (kenney.nl)
