@@ -6,59 +6,59 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6mj06"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cn378"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_nwibv"]
 atlas = ExtResource("1_bkjkw")
 region = Rect2(0, 256, 256, 256)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ex5av"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6wl6p"]
 atlas = ExtResource("1_bkjkw")
 region = Rect2(256, 256, 256, 256)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pvi6i"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ij5t"]
 atlas = ExtResource("1_bkjkw")
 region = Rect2(512, 256, 256, 256)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lhhkg"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_yp40u"]
 atlas = ExtResource("1_bkjkw")
 region = Rect2(768, 256, 256, 256)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ld4g4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_q7v6e"]
 atlas = ExtResource("1_bkjkw")
 region = Rect2(1024, 256, 256, 256)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tkqjc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ix5rh"]
 atlas = ExtResource("1_bkjkw")
-region = Rect2(0, 0, 256, 256)
+region = Rect2(0, 4, 256, 254)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_03w7b"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kd8ep"]
 atlas = ExtResource("1_bkjkw")
-region = Rect2(256, 0, 256, 256)
+region = Rect2(256, 4, 256, 254)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_th8mn"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhngf"]
 atlas = ExtResource("1_bkjkw")
-region = Rect2(512, 0, 256, 256)
+region = Rect2(512, 4, 256, 254)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kjwc1"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ug0t6"]
 atlas = ExtResource("1_bkjkw")
-region = Rect2(768, 0, 256, 256)
+region = Rect2(768, 4, 256, 254)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8u6f8"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_cn378")
+"texture": SubResource("AtlasTexture_nwibv")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ex5av")
+"texture": SubResource("AtlasTexture_6wl6p")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pvi6i")
+"texture": SubResource("AtlasTexture_6ij5t")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lhhkg")
+"texture": SubResource("AtlasTexture_yp40u")
 }, {
 "duration": 5.0,
-"texture": SubResource("AtlasTexture_ld4g4")
+"texture": SubResource("AtlasTexture_q7v6e")
 }],
 "loop": false,
 "name": &"death",
@@ -66,16 +66,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_tkqjc")
+"texture": SubResource("AtlasTexture_ix5rh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_03w7b")
+"texture": SubResource("AtlasTexture_kd8ep")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_th8mn")
+"texture": SubResource("AtlasTexture_vhngf")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_kjwc1")
+"texture": SubResource("AtlasTexture_ug0t6")
 }],
 "loop": true,
 "name": &"idle",
@@ -95,11 +95,11 @@ shape = SubResource("CapsuleShape3D_6mj06")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 pixel_size = 0.009
 billboard = 2
+texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_8u6f8")
-animation = &"death"
+animation = &"idle"
 autoplay = "idle"
-frame = 4
-frame_progress = 1.0
+frame_progress = 0.893558
 
 [node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_ldufh")

@@ -44,4 +44,5 @@ func attempt_to_kill_player():
 	var result = get_world_3d().direct_space_state.intersect_ray(query)
 	if result.is_empty():
 		player.onhit()
+		
 	

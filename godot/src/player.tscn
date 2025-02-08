@@ -1,14 +1,24 @@
-[gd_scene load_steps=11 format=3 uid="uid://cw7y606enuklv"]
+[gd_scene load_steps=21 format=3 uid="uid://cw7y606enuklv"]
 
 [ext_resource type="Texture2D" uid="uid://bi5vhlaqigflv" path="res://assets/ignore/doomclone/gun_sprites.png" id="1_8y8w0"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_fof3h"]
 [ext_resource type="AudioStream" uid="uid://b48fyvlmj2al6" path="res://assets/ignore/doomclone/revolver_shot1.wav" id="2_2ncgx"]
+[ext_resource type="FontFile" uid="uid://dey1s1t7cy3gy" path="res://assets/fonts/Perfect DOS VGA 437 Win.ttf" id="3_4wo37"]
+[ext_resource type="AudioStream" uid="uid://b3gc5to06yl52" path="res://assets/kenney/kenney_interface-sounds/Audio/click_001.ogg" id="5_6rcmb"]
+[ext_resource type="AudioStream" uid="uid://bii2ctm1efpeh" path="res://assets/kenney/kenney_rpg-audio/Audio/cloth3.ogg" id="6_q8ps5"]
+[ext_resource type="AudioStream" uid="uid://dfn2tlwj5s2vm" path="res://assets/ignore/Snake's Authentic Gun Sounds And More/Snake's Authentic Gun Sounds/Reloads, Cycling & More/WAV/AR Bolt Release WAV.wav" id="7_evoq3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wjr0a"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_njaft"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8c1xb"]
 atlas = ExtResource("1_8y8w0")
 region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wgcs"]
+atlas = ExtResource("1_8y8w0")
+region = Rect2(2048, 0, 512, 512)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wt064"]
 atlas = ExtResource("1_8y8w0")
@@ -38,6 +48,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_8wgcs")
+}],
+"loop": false,
+"name": &"jam",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_wt064")
 }, {
 "duration": 1.0,
@@ -53,6 +71,111 @@ animations = [{
 "name": &"shoot",
 "speed": 10.0
 }]
+
+[sub_resource type="Animation" id="Animation_ngshu"]
+resource_name = "melee"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ArmPivot/MeshInstance3D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.233333, 0.433333, 0.966667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.241766, 0.0548738, 0.428578), Vector3(0.241766, 0.0548738, -0.521975), Vector3(0.241766, 0.0548738, 0.428578)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/GunBase/AnimatedSprite2D:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.333333, 1.06667, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(226, -128), Vector2(226, 128), Vector2(226, 128), Vector2(226, -128)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeleeThrow:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.166667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.433333, 1.23333),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"punch_active"
+}, {
+"args": [],
+"method": &"reload_sound"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_mg2po"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ArmPivot/MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.241766, 0.0548738, 0.428578)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/GunBase/AnimatedSprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(226, -128)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeleeThrow:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bylco"]
+_data = {
+"RESET": SubResource("Animation_mg2po"),
+"melee": SubResource("Animation_ngshu")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dx5c2"]
+size = Vector3(1.06189, 1, 1.84607)
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_layer = 2
@@ -74,7 +197,42 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 [node name="Camera3D" type="Camera3D" parent="BobPivot"]
 unique_name_in_owner = true
 
+[node name="ArmPivot" type="Node3D" parent="."]
+transform = Transform3D(0.849865, 0.527, 0, -0.527, 0.849865, 0, 0, 0, 1, 0, 1.4582, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ArmPivot"]
+transform = Transform3D(0.136148, 0, 0, 0, 0.11101, 0, 0, 0, 0.686883, 0.241766, 0.0548738, 0.428578)
+mesh = SubResource("BoxMesh_njaft")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Health" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 201.0
+offset_top = -40.0
+offset_right = 241.0
+grow_vertical = 0
+
+[node name="HealthLabel" type="Label" parent="CanvasLayer/Health"]
+offset_top = -28.0
+offset_right = 162.0
+offset_bottom = 20.0
+theme_override_colors/font_color = Color(0.593134, 0.593134, 0.593134, 1)
+theme_override_fonts/font = ExtResource("3_4wo37")
+theme_override_font_sizes/font_size = 48
+text = "HEALTH"
+
+[node name="HealthCount" type="Label" parent="CanvasLayer/Health"]
+offset_top = -76.0
+offset_right = 108.0
+offset_bottom = -28.0
+theme_override_colors/font_color = Color(0.933333, 0.0313726, 0.0901961, 1)
+theme_override_fonts/font = ExtResource("3_4wo37")
+theme_override_font_sizes/font_size = 48
+text = "12"
 
 [node name="GunBase" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -90,13 +248,34 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer/GunBase"]
-position = Vector2(226, -121)
+position = Vector2(226, -128)
 scale = Vector2(0.679688, 0.65625)
 sprite_frames = SubResource("SpriteFrames_y634p")
-animation = &"shoot"
+animation = &"jam"
 autoplay = "idle"
-frame = 3
-frame_progress = 1.0
+
+[node name="AmmoLabel" type="Label" parent="CanvasLayer/GunBase"]
+layout_mode = 0
+offset_left = 331.0
+offset_top = -22.0
+offset_right = 439.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0.593134, 0.593134, 0.593134, 1)
+theme_override_fonts/font = ExtResource("3_4wo37")
+theme_override_font_sizes/font_size = 48
+text = "AMMO"
+
+[node name="AmmoCount" type="Label" parent="CanvasLayer/GunBase"]
+layout_mode = 0
+offset_left = 331.0
+offset_top = -70.0
+offset_right = 439.0
+offset_bottom = -22.0
+theme_override_colors/font_color = Color(0.54, 0.54, 0.54, 1)
+theme_override_fonts/font = ExtResource("3_4wo37")
+theme_override_font_sizes/font_size = 48
+text = "12"
+horizontal_alignment = 2
 
 [node name="Crosshair" type="ColorRect" parent="CanvasLayer"]
 anchors_preset = 8
@@ -155,3 +334,34 @@ text = "You Died!"
 [node name="ShootSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_2ncgx")
 bus = &"Sfx"
+
+[node name="JammedSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_6rcmb")
+bus = &"Sfx"
+
+[node name="MeleeThrow" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_q8ps5")
+bus = &"Sfx"
+
+[node name="MeleeHit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_6rcmb")
+bus = &"Sfx"
+
+[node name="Unjam" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_evoq3")
+volume_db = -16.864
+bus = &"Sfx"
+
+[node name="WeaponAnim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bylco")
+}
+
+[node name="PunchArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.61628, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PunchArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.159697, 0, -0.855638)
+shape = SubResource("BoxShape3D_dx5c2")
