@@ -26,12 +26,37 @@ func pick_random_point():
 
 	var query = PhysicsShapeQueryParameters3D.new()
 	query.shape = sphere_shape
-	query.collision_mask = 1+4
+	query.collision_mask = 1
 	current_point = get_random_points()
-	while result.size() > 0 || current_point.distance_to(player.global_position) < 4.0:
+	var valid = false
+	while !valid:
+		valid = true
 		current_point = get_random_points()
+		if current_point.distance_to(player.global_position) < 6.0: 
+			valid = false
+			continue
+			
+		
+		
+		var downquery = PhysicsRayQueryParameters3D.create(current_point + Vector3.UP * 100, current_point + Vector3.DOWN * 100)
+		query.collision_mask = 1
+		result = space.intersect_ray(downquery)
+		if result.is_empty():
+			valid = false
+			continue
+		
+		current_point = result["position"]
+		
+		if current_point.y > 3.0:
+			valid = false
+			continue
+		
 		query.transform = Transform3D(Basis(), current_point+Vector3.UP * 2.2)
 		result = space.intersect_shape(query, 1)
+		if result.size() > 0: 
+			valid = false
+			continue
+		
 		
 	return current_point
 
@@ -51,15 +76,16 @@ func spawn_wave():
 		var spawn_point = pick_random_point()
 		var enemy = ENEMY.instantiate()
 		get_parent().add_child(enemy)
-		enemy.global_position = spawn_point
+		enemy.global_position = spawn_point + Vector3.UP * 0.2
 		spawn_sound.play()
 		await get_tree().create_timer(0.2).timeout
 
 func spawn_barrels():
 	var barrel_count = get_tree().get_nodes_in_group("Barrel").size()
 	var barrels_to_spawn = 4-barrel_count
+	if barrels_to_spawn < 0: barrels_to_spawn = 0
 	
-	for i in range(wave_size):
+	for i in range(barrels_to_spawn):
 		var spawn_point = pick_random_point()
 		var barrel = BARREL.instantiate()
 		get_parent().add_child(barrel)

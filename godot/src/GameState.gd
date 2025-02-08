@@ -13,6 +13,8 @@ var malfunction := false
 var malfunction_totaltime := 1.0
 
 var first_malfunction := true
+var health_drops_remaining := 15
+var health_drop_chance := 0.0
 
 var enemy_count := 0
 

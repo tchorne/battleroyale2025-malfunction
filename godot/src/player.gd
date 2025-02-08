@@ -10,7 +10,7 @@ extends CharacterBody3D
 @onready var hitstun_overlay: ColorRect = $CanvasLayer/Fullscreen/Hitstun
 @onready var malfunction_overlay: ColorRect = $CanvasLayer/Fullscreen/Malfunction
 
-const SPEED = 5.0
+const SPEED = 7.0
 const MOUSE_SENS = 0.5
 const BOB_MAGNITUDE = 0.05
 const BOB_FREQ = 2.0
@@ -33,8 +33,6 @@ var max_health := 100
 var invulnerable := false
 var post_hit_invulnerable := 0.0
 var melee_invulnerable := 0.0
-
-
 
 
 func _ready():
@@ -99,7 +97,7 @@ func process_inputs(_delta):
 		melee()
 	
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if GameState.hitstun:
 		return
 	if dead:
@@ -107,16 +105,16 @@ func _physics_process(_delta: float) -> void:
 	
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forwards", "move_backwards")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	velocity.y = 0
+	
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-
+	
+	velocity.y -= 9.8 * delta
 	move_and_slide()
-	global_position.y = 0
 
 func shoot():
 	if !can_shoot:
@@ -160,6 +158,7 @@ func update_ui():
 	$CanvasLayer/Health/HealthCount.text = str(health)
 	ammo_count.text = str(ammo)
 	ammo_count.add_theme_color_override("font_color", Color("ee0817") if not gun_jammed and ammo > 0 else Color("8a8a8a"))
+	GameState.health_drop_chance = calculate_health_percent()
 
 func shoot_anim_done():
 	can_shoot = true
@@ -168,7 +167,7 @@ func restart():
 	get_tree().reload_current_scene()
 
 func punch_active():
-	var bodies = $PunchArea.get_overlapping_bodies()
+	var bodies = $PunchArea.get_overlapping_areas() + $PunchArea.get_overlapping_bodies()
 	var enemies_hit := 0
 	for body in bodies:
 		if body == self: continue
@@ -215,3 +214,18 @@ func add_ammo():
 	if ammo < 12:
 		ammo+=1
 		update_ui()
+
+func add_health():
+	health += 10
+	health = max(health, max_health)
+	update_ui()
+	
+func calculate_health_percent():
+	if health >= 100:
+		return 0
+	if ammo <= 3:
+		return 0
+	
+	var mod_health = health / 10
+	return clamp(float(ammo) / float(mod_health), 0.2, 0.8)
+	

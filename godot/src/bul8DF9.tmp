@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://dydjxpjdkqqt6"]
 
 [ext_resource type="Script" path="res://bullet_drop.gd" id="1_bkr3g"]
-[ext_resource type="Material" uid="uid://qt18fdmhoaoo" path="res://src/materials/ammocase.tres" id="2_03jks"]
 [ext_resource type="PackedScene" uid="uid://bbv4tvqw2qjdg" path="res://src/despawner.tscn" id="2_ir0he"]
+[ext_resource type="Material" uid="uid://b18m0qjkmhl3r" path="res://src/materials/healthcase.tres" id="2_mbi70"]
 [ext_resource type="BoxMesh" uid="uid://caduwgskg7cem" path="res://src/materials/ammomesh.res" id="3_4xysv"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uqntt"]
@@ -20,7 +20,7 @@ script = ExtResource("1_bkr3g")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.0992292, 0, 0, 0, 0.0992292, 0, 0, 0, 0.0992292, 0, 0, 0)
 mesh = SubResource("CylinderMesh_elqc3")
-surface_material_override/0 = ExtResource("2_03jks")
+surface_material_override/0 = ExtResource("2_mbi70")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.211629, 0, 0, 0, 0.211629, 0, 0, 0, 0.211629, 0, 0, 0)

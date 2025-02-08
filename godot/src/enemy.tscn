@@ -1,10 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://cv4wwr0w6j1yj"]
+[gd_scene load_steps=18 format=3 uid="uid://cv4wwr0w6j1yj"]
 
 [ext_resource type="Texture2D" uid="uid://b68wylrqht58b" path="res://assets/ignore/doomclone/monster_sprites.png" id="1_bkjkw"]
 [ext_resource type="Script" path="res://src/enemy.gd" id="1_pnfpi"]
 [ext_resource type="AudioStream" uid="uid://datmglmgqcu3d" path="res://assets/ignore/doomclone/monster_die.wav" id="2_ldufh"]
+[ext_resource type="PackedScene" uid="uid://bbv4tvqw2qjdg" path="res://src/despawner.tscn" id="4_xo871"]
+[ext_resource type="Script" path="res://src/enemy_hitbox.gd" id="5_qm32v"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6mj06"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lb1wf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nwibv"]
 atlas = ExtResource("1_bkjkw")
@@ -82,14 +84,17 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6mj06"]
+height = 30.0
+
 [node name="Enemy" type="CharacterBody3D"]
-collision_layer = 2
+collision_layer = 0
 collision_mask = 3
 script = ExtResource("1_pnfpi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_6mj06")
+shape = SubResource("CapsuleShape3D_lb1wf")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -99,9 +104,29 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_8u6f8")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.00166312
+frame_progress = 0.516343
 
 [node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_ldufh")
 unit_size = 2.0
 bus = &"Sfx"
+
+[node name="Despawner" parent="." instance=ExtResource("4_xo871")]
+
+[node name="Hitbox" type="Area3D" parent="."]
+transform = Transform3D(1.00283, 0, 0, 0, 1.00283, 0, 0, 0, 1.00283, 0, 0, 0)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("5_qm32v")
+
+[node name="Hitbox" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_6mj06")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="UpdateNavigation" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="UpdateNavigation" to="." method="update_navigation"]

@@ -18,4 +18,7 @@ Punch sound:
 Explosion sound:
  - https://opengameart.org/content/synthesized-explosion
 
+Music:
+ - https://opengameart.org/content/ultimate-midi-pack
+
 Various sound effects by Kenney (kenney.nl)

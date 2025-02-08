@@ -5,11 +5,13 @@ signal died
 const BULLET_DROP = preload("res://src/bullet_drop.tscn")
 
 @onready var animated_sprite_3d: AnimatedSprite3D = $AnimatedSprite3D
+@onready var navigation_agent_3d: NavigationAgent3D = $NavigationAgent3D
 
-@export var move_speed := 2.0
+@export var move_speed := 2.7
 @export var attack_range := 1.5
 
 @onready var player : CharacterBody3D = get_tree().get_first_node_in_group("Player")
+
 var dead = false
 
 var end_ammo_drop := 0
@@ -31,7 +33,7 @@ func _on_malfunction_end():
 func _process(_delta: float) -> void:
 	animated_sprite_3d.speed_scale = 0 if GameState.hitstun or GameState.malfunction else 1
 	
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if GameState.hitstun or GameState.malfunction:
 		return
 	if dead:
@@ -39,14 +41,16 @@ func _physics_process(_delta: float) -> void:
 	if player == null:
 		return
 		
-	var dir = player.global_position - global_position
+	var dir = navigation_agent_3d.get_next_path_position() - global_position
 	dir.y = 0.0
 	dir = dir.normalized()
 	
-	velocity = dir * move_speed
+	velocity.x = (dir * move_speed).x
+	velocity.z = (dir * move_speed).z
+	velocity.y -= 9.8* delta
 	move_and_slide()
 	
-	global_position.y = 0
+	#global_position.y = 0
 	
 	attempt_to_kill_player()
 	
@@ -57,7 +61,6 @@ func die():
 	died.emit()
 	if GameState.malfunction:
 		end_ammo_drop = ceil(GameState.malfunction_combo / 3)
-		print(end_ammo_drop)
 	else:
 		played_sound = true
 		$DeathSound.play()
@@ -65,6 +68,8 @@ func die():
 	dead = true
 	animated_sprite_3d.play("death")
 	$CollisionShape3D.disabled = true
+	$Hitbox/Hitbox.disabled = true
+	$Despawner.despawn(15.0)
 
 func onpunch():
 	for i in range(2):
@@ -75,6 +80,8 @@ func spawn_ammo():
 	get_parent().add_child(drop)
 	drop.global_position = global_position + Vector3.UP * 1.3
 	
+func update_navigation():
+	navigation_agent_3d.target_position = player.global_position
 
 func attempt_to_kill_player():
 	var dist_to_player = global_position.distance_to(player.global_position)
