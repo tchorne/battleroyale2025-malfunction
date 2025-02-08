@@ -27,6 +27,7 @@ manager/music/bus="Music"
 [autoload]
 
 GameState="*res://src/GameState.gd"
+MusicManager="*res://src/music_manager.tscn"
 
 [display]
 

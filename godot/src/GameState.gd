@@ -43,6 +43,7 @@ func _process(delta: float) -> void:
 		if malfunction_remaining <= 0:
 			malfunction = false
 			end_malfunction.emit()
+			MusicManager.fade_to(MusicManager.full)
 	
 	if Input.is_key_pressed(KEY_1):
 		begin_hitstun(1.0)
@@ -51,7 +52,7 @@ func begin_hitstun(duration, _show_cursor = false):
 	if malfunction: return
 	
 	var new_duration = duration * hitstun_mult
-	hitstun_mult += duration / 2.0
+	hitstun_mult += (duration / 2.0) * (2 if first_malfunction else 1)
 	duration = new_duration
 	
 	if hitstun and duration < hitstun_remaining: return
@@ -64,9 +65,11 @@ func begin_hitstun(duration, _show_cursor = false):
 		if first_malfunction: 
 			hitstun_remaining *= 5.0
 			duration *= 8.0
+			duration = max(duration, 10.0)
 		else:
 			hitstun_remaining *= 1.5
 			duration *= 4.0
+			duration = max(duration, 7.0)
 		begun_malfunction.emit(first_malfunction)
 		malfunction_totaltime = duration
 		malfunction_remaining = malfunction_totaltime
@@ -74,4 +77,5 @@ func begin_hitstun(duration, _show_cursor = false):
 		first_malfunction = false
 		malfunction = true
 		malfunction_combo = 0
+		MusicManager.fade_to(MusicManager.calm)
 	

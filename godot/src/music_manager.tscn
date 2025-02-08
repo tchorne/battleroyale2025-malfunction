@@ -1,6 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://nbtflruqks5y"]
+[gd_scene load_steps=5 format=3 uid="uid://nbtflruqks5y"]
 
 [ext_resource type="Script" path="res://music_manager.gd" id="1_a8dpp"]
+[ext_resource type="AudioStream" uid="uid://ctwp8axdc5s7l" path="res://assets/ignore/music/full.wav" id="2_k2jdu"]
+[ext_resource type="AudioStream" uid="uid://vuv1m8utvjxb" path="res://assets/ignore/music/calm2.wav" id="3_swppn"]
+[ext_resource type="AudioStream" uid="uid://b0g3v8afqx5pj" path="res://assets/ignore/music/nodrums.wav" id="4_41gor"]
 
 [node name="MusicManager" type="Node"]
 script = ExtResource("1_a8dpp")
+
+[node name="full" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_k2jdu")
+bus = &"Music"
+
+[node name="calm" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_swppn")
+bus = &"Music"
+
+[node name="nodrums" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_41gor")
+bus = &"Music"
+
+[connection signal="finished" from="full" to="." method="_on_full_finished"]

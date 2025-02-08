@@ -61,7 +61,7 @@ func _process(delta: float) -> void:
 	
 	if GameState.hitstun:
 		malfunction_overlay.visible = false
-		if GameState.hitstun_remaining > 0.1:
+		if GameState.hitstun_remaining > 0.2:
 			hitstun_overlay.visible = true
 		return
 	else:
