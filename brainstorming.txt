@@ -1,0 +1,33 @@
+Battle royale XVI game ideas
+
+Doom clone where weapons constantly jam botw style
+
+Puzzle platformer where various movement abilities are broken
+Grappling hook with extremely small launch velocity
+
+Gun fires bullets that drop very quickly
+
+Gun explodes in players face
+
+Grenades don't explode when they're supposed to
+
+Grid-textures that respond (highlight) to nearby activity
+
+Performing some action causes all collision/ai/rendering/etc to break
+ - breaking a gun?
+ - grenade about to explode?
+ - killing an enemy?
+ - killing several enemies at once?
+
+Hitstun when doing something big - loading bar appears in bottom right during hitstun
+
+A game where you can still run around while the next section of the map is still loading in
+
+Goal is to rank up a super high combo in stopped time
+
+Gun jamming mechanic and ammo decreasing also broken in stopped time
+
+Progress to break comes from
+ - enemy blood particles
+ - spawning in new enemies from door
+ - killing a specific enemy
