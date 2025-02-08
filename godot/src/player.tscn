@@ -1,12 +1,17 @@
-[gd_scene load_steps=21 format=3 uid="uid://cw7y606enuklv"]
+[gd_scene load_steps=33 format=3 uid="uid://cw7y606enuklv"]
 
 [ext_resource type="Texture2D" uid="uid://bi5vhlaqigflv" path="res://assets/ignore/doomclone/gun_sprites.png" id="1_8y8w0"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_fof3h"]
 [ext_resource type="AudioStream" uid="uid://b48fyvlmj2al6" path="res://assets/ignore/doomclone/revolver_shot1.wav" id="2_2ncgx"]
 [ext_resource type="FontFile" uid="uid://dey1s1t7cy3gy" path="res://assets/fonts/Perfect DOS VGA 437 Win.ttf" id="3_4wo37"]
 [ext_resource type="AudioStream" uid="uid://b3gc5to06yl52" path="res://assets/kenney/kenney_interface-sounds/Audio/click_001.ogg" id="5_6rcmb"]
+[ext_resource type="Script" path="res://src/malfunction_popup.gd" id="5_85ihv"]
+[ext_resource type="Texture2D" uid="uid://bkfyc2o5c6obr" path="res://assets/custom/stoppedworking.png" id="5_qdo2s"]
+[ext_resource type="Texture2D" uid="uid://8h6l5jwlay3b" path="res://assets/custom/stoppedworkingprogress.png" id="6_8xf4s"]
 [ext_resource type="AudioStream" uid="uid://bii2ctm1efpeh" path="res://assets/kenney/kenney_rpg-audio/Audio/cloth3.ogg" id="6_q8ps5"]
+[ext_resource type="AudioStream" uid="uid://dg0af8u6y6a22" path="res://assets/ignore/punch/qubodupPunch01.ogg" id="7_8f2ti"]
 [ext_resource type="AudioStream" uid="uid://dfn2tlwj5s2vm" path="res://assets/ignore/Snake's Authentic Gun Sounds And More/Snake's Authentic Gun Sounds/Reloads, Cycling & More/WAV/AR Bolt Release WAV.wav" id="7_evoq3"]
+[ext_resource type="AudioStream" uid="uid://u7xbxf0v02mn" path="res://assets/custom/hurt.wav" id="9_r0h7j"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wjr0a"]
 
@@ -71,6 +76,178 @@ animations = [{
 "name": &"shoot",
 "speed": 10.0
 }]
+
+[sub_resource type="Animation" id="Animation_tb2i6"]
+resource_name = "hurt"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hurt:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 0.411765), Color(1, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurt:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_2p2un"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hurt:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0, 0.411765)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurt:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h2iye"]
+_data = {
+"RESET": SubResource("Animation_2p2un"),
+"hurt": SubResource("Animation_tb2i6")
+}
+
+[sub_resource type="Animation" id="Animation_0t207"]
+resource_name = "firstmalfunction"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureProgressBar:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.46667, 1.53333, 1.6, 1.66667, 1.8, 4.3, 4.53333, 5.06667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-155.91, -71), Vector2(-155.91, -71), Vector2(-176, -71), Vector2(-176, -71), Vector2(-176, -71), Vector2(-176, -71), Vector2(-176, -71), Vector2(-184, -286)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
+
+[sub_resource type="Animation" id="Animation_li104"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureProgressBar:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-176, -71)]
+}
+
+[sub_resource type="Animation" id="Animation_dytar"]
+resource_name = "secondmalfunction"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.733333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureProgressBar:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.533333, 0.633333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-188, -575), Vector2(-188, -575), Vector2(-175, -270), Vector2(-175, -270)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qlgyh"]
+_data = {
+"RESET": SubResource("Animation_li104"),
+"firstmalfunction": SubResource("Animation_0t207"),
+"secondmalfunction": SubResource("Animation_dytar")
+}
 
 [sub_resource type="Animation" id="Animation_ngshu"]
 resource_name = "melee"
@@ -175,7 +352,7 @@ _data = {
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dx5c2"]
-size = Vector3(1.06189, 1, 1.84607)
+size = Vector3(1.06189, 1.75537, 1.84607)
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_layer = 2
@@ -196,6 +373,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="BobPivot"]
 unique_name_in_owner = true
+
+[node name="UIPosition" type="Node3D" parent="BobPivot/Camera3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 
 [node name="ArmPivot" type="Node3D" parent="."]
 transform = Transform3D(0.849865, 0.527, 0, -0.527, 0.849865, 0, 0, 0, 1, 0, 1.4582, 0)
@@ -331,6 +512,91 @@ offset_right = 228.0
 offset_bottom = 83.0
 text = "You Died!"
 
+[node name="Fullscreen" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScreenAnim" type="AnimationPlayer" parent="CanvasLayer/Fullscreen"]
+libraries = {
+"": SubResource("AnimationLibrary_h2iye")
+}
+
+[node name="Hitstun" type="ColorRect" parent="CanvasLayer/Fullscreen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.352941)
+
+[node name="Malfunction" type="ColorRect" parent="CanvasLayer/Fullscreen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.00784314)
+
+[node name="Hurt" type="ColorRect" parent="CanvasLayer/Fullscreen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0, 0, 0.411765)
+
+[node name="Malfunction" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_85ihv")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer/Malfunction"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -195.0
+offset_top = -290.0
+offset_right = 405.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.65, 0.65)
+max_value = 16.0
+value = 14.0
+rounded = true
+texture_under = ExtResource("5_qdo2s")
+texture_progress = ExtResource("6_8xf4s")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Malfunction"]
+libraries = {
+"": SubResource("AnimationLibrary_qlgyh")
+}
+
 [node name="ShootSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_2ncgx")
 bus = &"Sfx"
@@ -344,7 +610,9 @@ stream = ExtResource("6_q8ps5")
 bus = &"Sfx"
 
 [node name="MeleeHit" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_6rcmb")
+stream = ExtResource("7_8f2ti")
+volume_db = -3.759
+pitch_scale = 1.18
 bus = &"Sfx"
 
 [node name="Unjam" type="AudioStreamPlayer" parent="."]
@@ -352,7 +620,13 @@ stream = ExtResource("7_evoq3")
 volume_db = -16.864
 bus = &"Sfx"
 
+[node name="Hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_r0h7j")
+volume_db = -8.771
+bus = &"Sfx"
+
 [node name="WeaponAnim" type="AnimationPlayer" parent="."]
+callback_mode_process = 2
 libraries = {
 "": SubResource("AnimationLibrary_bylco")
 }
@@ -363,5 +637,5 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PunchArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.159697, 0, -0.855638)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.159697, -0.377686, -0.855638)
 shape = SubResource("BoxShape3D_dx5c2")

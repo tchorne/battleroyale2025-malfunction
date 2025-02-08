@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://dydjxpjdkqqt6"]
+
+[ext_resource type="Script" path="res://bullet_drop.gd" id="1_bkr3g"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uqntt"]
+bounce = 0.44
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_elqc3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d1fl4"]
+shading_mode = 0
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5lnwp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jma64"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 1, 0.0833333, 0.235294)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pux5r"]
+material = SubResource("StandardMaterial3D_jma64")
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="BulletDrop" type="RigidBody3D"]
+collision_layer = 0
+physics_material_override = SubResource("PhysicsMaterial_uqntt")
+script = ExtResource("1_bkr3g")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0992292, 0, 0, 0, 0.0992292, 0, 0, 0, 0.0992292, 0, 0, 0)
+mesh = SubResource("CylinderMesh_elqc3")
+surface_material_override/0 = SubResource("StandardMaterial3D_d1fl4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.211629, 0, 0, 0, 0.211629, 0, 0, 0, 0.211629, 0, 0, 0)
+shape = SubResource("BoxShape3D_5lnwp")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+transform = Transform3D(1.18145, 0, 0, 0, 1.18145, 0, 0, 0, 1.18145, 0, 0, 0)
+amount = 10
+mesh = SubResource("BoxMesh_pux5r")
+gravity = Vector3(0, 0, 0)
+angular_velocity_min = -145.45
+angular_velocity_max = 174.55

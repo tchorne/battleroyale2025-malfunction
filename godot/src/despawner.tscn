@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbv4tvqw2qjdg"]
+
+[ext_resource type="Script" path="res://src/despawner.gd" id="1_wlknu"]
+
+[node name="Despawner" type="Timer"]
+script = ExtResource("1_wlknu")

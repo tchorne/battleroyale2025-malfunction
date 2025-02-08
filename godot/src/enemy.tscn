@@ -99,7 +99,7 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_8u6f8")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.893558
+frame_progress = 0.00166312
 
 [node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_ldufh")

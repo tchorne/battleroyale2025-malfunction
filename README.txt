@@ -14,4 +14,8 @@ Gun sounds:
 
 Punch sound:
  - https://opengameart.org/content/punch
+
+Explosion sound:
+ - https://opengameart.org/content/synthesized-explosion
+
 Various sound effects by Kenney (kenney.nl)

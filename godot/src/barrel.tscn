@@ -1,0 +1,115 @@
+[gd_scene load_steps=18 format=3 uid="uid://cqpb1djfqt4an"]
+
+[ext_resource type="Script" path="res://src/barrel.gd" id="1_0iayo"]
+[ext_resource type="Texture2D" uid="uid://uwe1j7fgd8wg" path="res://assets/custom/barrel.png" id="1_ncnct"]
+[ext_resource type="AudioStream" uid="uid://cxcyeyai4c0e0" path="res://assets/kenney/kenney_impact-sounds/Audio/impactPlate_heavy_004.ogg" id="3_m02xa"]
+[ext_resource type="AudioStream" uid="uid://wyq2ay5oxxt" path="res://assets/ignore/synthetic_explosion_1.wav" id="4_eko5m"]
+[ext_resource type="PackedScene" uid="uid://bbv4tvqw2qjdg" path="res://src/despawner.tscn" id="5_qu3xn"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_t3l7p"]
+height = 3.61206
+radius = 0.576535
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vg2jo"]
+atlas = ExtResource("1_ncnct")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_74kra"]
+atlas = ExtResource("1_ncnct")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sqlib"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vg2jo")
+}],
+"loop": true,
+"name": &"base",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_74kra")
+}],
+"loop": true,
+"name": &"damaged",
+"speed": 5.0
+}]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fccm2"]
+radius = 4.08875
+
+[sub_resource type="Gradient" id="Gradient_jv77q"]
+colors = PackedColorArray(0.87, 0.87, 0, 1, 0.69, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_66roq"]
+gradient = SubResource("Gradient_jv77q")
+
+[sub_resource type="Curve" id="Curve_mcia8"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.108696, 1), 0.0, 0.0, 0, 0, Vector2(0.471014, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_vc1i8"]
+curve = SubResource("Curve_mcia8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_egxha"]
+emission_shape = 1
+emission_sphere_radius = 4.0
+direction = Vector3(0, 1, 0)
+spread = 42.831
+initial_velocity_max = 3.0
+gravity = Vector3(0, -0.2, 0)
+scale_min = 0.2
+scale_max = 0.2
+scale_curve = SubResource("CurveTexture_vc1i8")
+color_ramp = SubResource("GradientTexture1D_66roq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_286u5"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_x5wqv"]
+material = SubResource("StandardMaterial3D_286u5")
+
+[node name="Barrel" type="StaticBody3D" groups=["Barrel"]]
+collision_layer = 3
+script = ExtResource("1_0iayo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58431, 0)
+shape = SubResource("CylinderShape3D_t3l7p")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.486876, 0)
+pixel_size = 0.004
+billboard = 2
+sprite_frames = SubResource("SpriteFrames_sqlib")
+animation = &"base"
+
+[node name="Explosion" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Explosion"]
+shape = SubResource("SphereShape3D_fccm2")
+
+[node name="Particles" type="GPUParticles3D" parent="."]
+cast_shadow = 0
+emitting = false
+amount = 256
+one_shot = true
+explosiveness = 0.92
+process_material = SubResource("ParticleProcessMaterial_egxha")
+draw_pass_1 = SubResource("BoxMesh_x5wqv")
+
+[node name="Damaged" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_m02xa")
+pitch_scale = 1.25
+
+[node name="Explode" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_eko5m")
+volume_db = -6.096
+pitch_scale = 1.25
+
+[node name="Despawner" parent="." instance=ExtResource("5_qu3xn")]
