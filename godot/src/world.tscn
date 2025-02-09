@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://jx7ma17q6xrj"]
+[gd_scene load_steps=9 format=3 uid="uid://jx7ma17q6xrj"]
 
 [ext_resource type="Script" path="res://src/world_environment.gd" id="1_20f8k"]
 [ext_resource type="PackedScene" uid="uid://cw7y606enuklv" path="res://src/player.tscn" id="1_c8p6q"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://src/EnemySpawner.gd" id="3_yx0y0"]
 [ext_resource type="AudioStream" uid="uid://di2d3t6xbrli2" path="res://assets/kenney/kenney_impact-sounds/Audio/impactWood_medium_003.ogg" id="4_7ueaf"]
 [ext_resource type="PackedScene" uid="uid://cqpb1djfqt4an" path="res://src/barrel.tscn" id="4_tksgu"]
+[ext_resource type="AudioStream" uid="uid://dqtitxcubh1b2" path="res://assets/kenney/kenney_interface-sounds/Audio/confirmation_001.ogg" id="6_4po0f"]
 
 [sub_resource type="Environment" id="Environment_okurb"]
 background_mode = 1
@@ -36,6 +37,12 @@ bus = &"Sfx"
 [node name="TimeToWave" type="Timer" parent="EnemySpawner"]
 one_shot = true
 autostart = true
+
+[node name="WaveSound" type="AudioStreamPlayer" parent="EnemySpawner"]
+stream = ExtResource("6_4po0f")
+volume_db = -5.498
+pitch_scale = 1.28
+bus = &"Sfx"
 
 [node name="NegativeBound" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.1461, 0, -17.1236)

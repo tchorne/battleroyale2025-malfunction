@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="settingBlur" load_steps=2 format=3 uid="uid://bgkr18k3tu6jq"]
+
+[ext_resource type="Script" path="res://src/UI/blurSetting.gd" id="1_sponr"]
+
+[resource]
+script = ExtResource("1_sponr")
+read_only_properties = PackedStringArray()
+default = true
+section = ""
+key = ""
+value_type = 1
+value_hint = 0
+value_hint_string = ""

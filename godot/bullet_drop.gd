@@ -5,7 +5,7 @@ const HEALTHMESH = preload("res://src/materials/healthmesh.res")
 const HEALTHCASE = preload("res://src/materials/healthcase.tres")
 
 @onready var cpu_particles_3d: CPUParticles3D = $CPUParticles3D
-var no_pickup_time = 1.0
+var no_pickup_time = 0.4
 var retained_velocity = Vector3.ZERO
 
 var towards_player := false
@@ -44,7 +44,7 @@ func _physics_process(delta: float) -> void:
 	if no_pickup_time > 0 and !freeze:
 		no_pickup_time -= delta
 		
-	if (global_position - player.global_position + Vector3.UP*0.5).length() < 6 and no_pickup_time < 0:
+	if (global_position - player.global_position + Vector3.UP*0.5).length() < 6 and no_pickup_time < 0 and player.ammo < 12:
 		towards_player = true
 		$Despawner.stop()
 		

@@ -60,7 +60,9 @@ func pick_random_point():
 		
 	return current_point
 
-
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("debugnext") and Settings.debug:
+		prepare_for_next_wave()
 
 func _ready():
 	GameState.wave_cleared.connect(prepare_for_next_wave)
@@ -69,9 +71,10 @@ func prepare_for_next_wave():
 	wave_number += 1
 	wave_size = wave_number+4
 	$TimeToWave.start(2.0)
+	$WaveSound.play()
 
 func spawn_wave():
-	
+	print(wave_number)
 	# calculate wave score
 	var points = wave_number * (wave_number+1) / 2
 	points += 5
@@ -81,7 +84,7 @@ func spawn_wave():
 	var imp_count = 0
 	var spectre_count = 0
 	
-	if wave_number > 10:
+	if wave_number > GameState.TOTAL_WAVES:
 		melee_count = 5
 	elif wave_number < 2:
 		melee_count = points
@@ -90,6 +93,13 @@ func spawn_wave():
 	elif wave_number == 3:
 		hitscan_count = ceil(points / 3)
 	else:
+		if wave_number == 8 or wave_number == 10 or wave_number == 11:
+			spectre_count = 1
+			points -= 5
+		elif wave_number == 13:
+			spectre_count = 2
+			points -= 5
+			
 		while points > 3:
 			match (randi()%3):
 				0:
@@ -109,8 +119,8 @@ func spawn_wave():
 	spawn_type(2, hitscan_count)
 	spawn_type(3, spectre_count)
 	GameState.enemy_count = melee_count + imp_count + hitscan_count + spectre_count
-	
-	GameState.wave += 1
+	GameState.count_spectres()
+	GameState.wave = wave_number
 	
 func spawn_barrels():
 	var barrel_count = get_tree().get_nodes_in_group("Barrel").size()

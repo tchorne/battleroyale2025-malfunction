@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-signal died
+signal died(spectre: bool)
 
 const BULLET_DROP = preload("res://src/bullet_drop.tscn")
 const FIREBALL = preload("res://src/fireball.tscn")
@@ -16,6 +16,7 @@ const TYPE_SPECTRE = 3
 @onready var attack_timer: Timer = $PausableTimers/AttackTimer
 @export var move_speed := 2.7
 @export var attack_range := 1.5
+@onready var hitbox: CollisionShape3D = $Hitbox/Hitbox
 
 @onready var player : CharacterBody3D = get_tree().get_first_node_in_group("Player")
 
@@ -26,6 +27,7 @@ var played_sound := false
 
 var type = TYPE_HITSCAN
 var hitscan_player_position := Vector3.ZERO
+var health = 1
 
 func _ready():
 	died.connect(GameState.enemy_killed)
@@ -35,8 +37,13 @@ func _ready():
 
 func set_type(newtype):
 	type = newtype
+	if type == TYPE_SPECTRE: 
+		health=6 
+		animated_sprite_3d.position.y +=1
 	idle_anim()
-
+	if type == TYPE_RANGED or type == TYPE_HITSCAN:
+		$UpdateNavigation.start(1.2)
+		
 func anim_done():
 	if !dead:
 		idle_anim()
@@ -49,6 +56,8 @@ func idle_anim():
 			animated_sprite_3d.play("impidle")
 		TYPE_HITSCAN:
 			animated_sprite_3d.play("shotgunidle")
+		TYPE_SPECTRE:
+			animated_sprite_3d.play("spectreidle")
 			
 func attack_anim():
 	match type:
@@ -69,18 +78,25 @@ func _process(_delta: float) -> void:
 	if dead and GameState.malfunction:
 		animated_sprite_3d.modulate.a = 0.2
 	else:
-		animated_sprite_3d.modulate.a = 1.0
-	animated_sprite_3d.speed_scale = 0 if GameState.hitstun or GameState.malfunction else 1
+		if type == TYPE_SPECTRE and !GameState.malfunction:
+			animated_sprite_3d.modulate.a = 0.4
+		else:
+			animated_sprite_3d.modulate.a = 1.0
+			
+	animated_sprite_3d.speed_scale = 0 if GameState.hitstun or (GameState.malfunction and type != TYPE_SPECTRE) else 1
 	pausable_timers.process_mode = Node.PROCESS_MODE_DISABLED if GameState.hitstun or GameState.malfunction else PROCESS_MODE_INHERIT
 	
 func _physics_process(delta: float) -> void:
-	if GameState.hitstun or GameState.malfunction:
+	if type == TYPE_SPECTRE:
+		hitbox.disabled = not GameState.malfunction
+	if GameState.hitstun or (GameState.malfunction and type != TYPE_SPECTRE):
 		return
 	if dead:
 		return
 	if player == null:
 		return
-		
+	
+	var next_point = navigation_agent_3d.get_next_path_position()
 	var dir = navigation_agent_3d.get_next_path_position() - global_position
 	dir.y = 0.0
 	dir = dir.normalized()
@@ -106,10 +122,14 @@ func get_speed():
 			return move_speed*1.1
 
 func onhit():
-	die()
+	health -= 1
+	if health <= 0:
+		die()
+	else:
+		animated_sprite_3d.play("hurt")
 
 func die():
-	died.emit()
+	died.emit(type == TYPE_SPECTRE)
 	if GameState.malfunction:
 		end_ammo_drop = ceil(GameState.malfunction_combo / 2)
 	else:
@@ -133,9 +153,22 @@ func spawn_ammo():
 	
 func update_navigation():
 	navigation_agent_3d.target_position = player.global_position
+	match(type):
+		TYPE_RANGED:
+			if global_position.distance_squared_to(player.global_position) < 80:
+				pathfind_away(randf_range(10.0, 15.0))
+		TYPE_HITSCAN:
+			if global_position.distance_squared_to(player.global_position) < 30:
+				pathfind_away(randf_range(5.0, 10.0))
+
+func pathfind_away(dist):
+	var from_player = global_position - player.global_position
+	from_player = from_player.rotated(Vector3.UP, randf_range(-PI/4, PI/4))
+	from_player = from_player.normalized() * dist
+	navigation_agent_3d.target_position = from_player
 
 func attempt_to_kill_player():
-	if not type == TYPE_MELEE: return
+	if type != TYPE_MELEE and type != TYPE_SPECTRE: return
 	var dist_to_player = global_position.distance_to(player.global_position)
 	if dist_to_player > attack_range:
 		return
@@ -168,9 +201,7 @@ func _on_attack_timer_timeout() -> void:
 			else:
 				attack_timer.start(0.5)
 		TYPE_SPECTRE:
-			# TODO if enemy in range
-			
-			stop_and_fire()
+			pass
 
 func stop_and_fire():
 	var stop_timer: Timer = $PausableTimers/StopTimer

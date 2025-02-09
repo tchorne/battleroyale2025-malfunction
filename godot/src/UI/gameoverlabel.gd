@@ -12,10 +12,10 @@ func _process(delta: float) -> void:
 
 func update(won):
 	if won:
-		text = """[font_size=42][center]YOU WIN!
-[font_size=26]WAVES BEATEN: 10
+		text = """[font_size=42][center]Victory!
+[font_size=26]WAVES BEATEN: {0}
 Thank you for playing!
-"""
+""".format([str(GameState.TOTAL_WAVES)])
 	else:
 		text = """[font_size=42][center]GAME OVER!
 [font_size=26]WAVE REACHED: {0}

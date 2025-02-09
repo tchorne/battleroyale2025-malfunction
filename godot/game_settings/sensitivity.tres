@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="settingSensitivity" load_steps=2 format=3 uid="uid://dqmvuu4t0f00f"]
+
+[ext_resource type="Script" path="res://src/UI/sensitivitySetting.gd" id="1_idh4d"]
+
+[resource]
+script = ExtResource("1_idh4d")
+read_only_properties = PackedStringArray()
+default = 50
+section = ""
+key = ""
+value_type = 2
+value_hint = 1
+value_hint_string = "0,100"

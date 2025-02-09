@@ -31,8 +31,3 @@ func _process(delta: float) -> void:
 	calm.volume_db = linear_to_db(calm_volume)
 	nodrums.volume_db = linear_to_db(nodrums_volume)
 	
-	if Input.is_key_pressed(KEY_2): fade_to(full)
-	if Input.is_key_pressed(KEY_3): fade_to(calm)
-	if Input.is_key_pressed(KEY_4): fade_to(nodrums)
-	
-	

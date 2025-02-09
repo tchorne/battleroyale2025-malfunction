@@ -29,6 +29,6 @@ func damage():
 		if body.has_method("onhit"):
 			body.onhit()
 			hitcount += 1
-	GameState.begin_hitstun(0.3 + 0.1 * hitcount)
+	GameState.begin_hitstun(0.4 + 0.2 * min(3,hitcount))
 	animated_sprite_3d.visible = false
 	$Despawner.despawn(5.0)

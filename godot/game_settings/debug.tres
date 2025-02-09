@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="settingDebug" load_steps=2 format=3 uid="uid://liu2k7eg788s"]
+
+[ext_resource type="Script" path="res://src/UI/debugSetting.gd" id="1_tsx4t"]
+
+[resource]
+script = ExtResource("1_tsx4t")
+read_only_properties = PackedStringArray()
+default = true
+section = ""
+key = ""
+value_type = 1
+value_hint = 0
+value_hint_string = ""

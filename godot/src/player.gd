@@ -10,9 +10,15 @@ extends CharacterBody3D
 @onready var hitstun_overlay: ColorRect = $CanvasLayer/Fullscreen/Hitstun
 @onready var malfunction_overlay: ColorRect = $CanvasLayer/Fullscreen/Malfunction
 @onready var tutorial_anim: AnimationPlayer = $CanvasLayer/Tutorial/TutorialAnim
+@onready var shoot_sound_2: AudioStreamPlayer = $ShootSound2
+@onready var ammo_up_sound: AudioStreamPlayer = $AmmoUpSound
+@onready var health_up_sound: AudioStreamPlayer = $HealthUpSound
+@onready var combo_sound: AudioStreamPlayer = $ComboSound
+
 
 const SPEED = 7.0
-const MOUSE_SENS = 0.2
+const MIN_SENS = 0.05
+const MAX_SENS = 0.6
 const BOB_MAGNITUDE = 0.05
 const BOB_FREQ = 2.0
 const HIT_INVULN = 1.0
@@ -37,9 +43,14 @@ var melee_invulnerable := 0.0
 
 var tutorial_step := 0
 
+
+@onready var mytree = get_tree()
 func _ready():
+	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	animated_sprite_2d.animation_finished.connect(anim_finished)
+	GameState.combo_increased.connect(combo_up)
+	GameState.game_ended.connect(_on_game_ended)
 	#weapon_anim.animation_finished.connect()
 	$CanvasLayer/DeathScreen/Panel/Button.button_up.connect(restart)
 	update_ui()
@@ -61,7 +72,7 @@ func _input(event: InputEvent) -> void:
 	if dead or GameState.hitstun:
 		return
 	if event is InputEventMouseMotion:
-		rotation_degrees.y -= event.relative.x * MOUSE_SENS
+		rotation_degrees.y -= event.relative.x * lerp(MIN_SENS, MAX_SENS, Settings.sensitivity*Settings.sensitivity)
 		
 
 func _process(delta: float) -> void:
@@ -97,8 +108,7 @@ func _process(delta: float) -> void:
 
 func process_inputs(_delta):
 	if dead: return
-	if Input.is_action_just_pressed("exit"):
-		get_tree().quit()
+		
 	if Input.is_action_just_pressed("restart"):
 		restart()
 	if Input.is_key_pressed(KEY_F11):
@@ -167,7 +177,8 @@ func shoot():
 	
 	update_ui()
 	animated_sprite_2d.play("shoot")
-	shoot_sound.play()
+	if GameState.malfunction: shoot_sound_2.play()
+	else: shoot_sound.play()
 	if ray_cast_3d.is_colliding() and ray_cast_3d.get_collider().has_method("onhit"):
 		ray_cast_3d.get_collider().call("onhit")
 		GameState.begin_hitstun(0.05)
@@ -193,7 +204,10 @@ func shoot_anim_done():
 	can_shoot = true
 	
 func restart():
-	get_tree().reload_current_scene()
+	mytree.paused = false
+	MusicManager.fade_to(MusicManager.nodrums)
+	mytree.reload_current_scene()
+	
 
 func punch_active():
 	var bodies = $PunchArea.get_overlapping_areas() + $PunchArea.get_overlapping_bodies()
@@ -215,7 +229,7 @@ func punch_active():
 		if gun_jammed:
 			gun_jammed = false
 			play_reload_sound = true
-		GameState.begin_hitstun(0.1 + 0.05 * enemies_hit)
+		GameState.begin_hitstun(0.15 + 0.05 * enemies_hit)
 		if tutorial_step == 3:
 			tutorial_step += 1
 			tutorial_anim.play("meleeend")
@@ -228,7 +242,6 @@ func reload_sound():
 		$Unjam.play()
 		play_reload_sound = false
 	
-
 func onhit():
 	if invulnerable:
 		return
@@ -236,28 +249,38 @@ func onhit():
 	$CanvasLayer/Fullscreen/ScreenAnim.play("hurt")
 	$Hurt.play()
 	
-	health -= 15
+	health -= 10
 	post_hit_invulnerable = HIT_INVULN
 	update_ui()
 	if health <= 0:
 		GameState.game_over()
 		dead = true
 		health = 0
-		$CanvasLayer/DeathScreen.show()
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		
 
 func _on_game_ended(_won):
+	MusicManager.fade_to(null)
 	$CanvasLayer/DeathScreen.show()
+	get_tree().paused = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 func add_ammo():
 	if ammo < 12:
 		ammo+=1
 		update_ui()
+		ammo_up_sound.play()
 
 func add_health():
 	health += 10
+	if health < max_health: health_up_sound.play()
 	health = min(health, max_health)
 	update_ui()
+
+func combo_up(amount):
+	var t = amount / 8.0
+	combo_sound.pitch_scale = lerp(0.6, 1.8, min(1, t))
+	combo_sound.play()
+	
 	
 func calculate_health_percent():
 	if health >= 100:
@@ -274,3 +297,7 @@ func _on_random_stats_timeout() -> void:
 	if GameState.malfunction:
 		$CanvasLayer/GunBase/AmmoCount.text = str(randi()%100)
 		$CanvasLayer/Health/HealthCount.text = str(randi()%1000)
+
+
+func _on_button_pressed() -> void:
+	restart()

@@ -1,26 +1,142 @@
-[gd_scene load_steps=3 format=3 uid="uid://dy66re1ituevf"]
+[gd_scene load_steps=12 format=3 uid="uid://dy66re1ituevf"]
 
+[ext_resource type="Script" path="res://src/settings.gd" id="1_2c860"]
 [ext_resource type="PackedScene" uid="uid://cha8xesfthpfk" path="res://addons/ggs/components/switch/component_switch.tscn" id="1_5pdvw"]
+[ext_resource type="FontFile" uid="uid://dey1s1t7cy3gy" path="res://assets/fonts/Perfect DOS VGA 437 Win.ttf" id="1_s3k1w"]
 [ext_resource type="Resource" uid="uid://442wo0c23pkk" path="res://game_settings/fullscreen.tres" id="2_0vao3"]
+[ext_resource type="PackedScene" uid="uid://ds06mwhee8ygm" path="res://addons/ggs/components/slider/component_slider.tscn" id="3_fch5h"]
+[ext_resource type="Resource" uid="uid://b5ynr4l5jen6f" path="res://game_settings/sfx.tres" id="4_rpqwe"]
+[ext_resource type="Resource" uid="uid://bdj8i147x5abv" path="res://game_settings/music.tres" id="5_6rkuk"]
+[ext_resource type="Resource" uid="uid://dqmvuu4t0f00f" path="res://game_settings/sensitivity.tres" id="7_jef63"]
+[ext_resource type="Resource" uid="uid://bgkr18k3tu6jq" path="res://game_settings/blur.tres" id="9_rxjbt"]
+[ext_resource type="Resource" uid="uid://liu2k7eg788s" path="res://game_settings/debug.tres" id="10_8uu4l"]
 
-[node name="Settings" type="Control"]
+[sub_resource type="Theme" id="Theme_v25sp"]
+default_font = ExtResource("1_s3k1w")
+/fonts/Default = ExtResource("1_s3k1w")
+
+[node name="Settings" type="Control" groups=["Pause"]]
+process_mode = 3
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+rotation = -0.00183562
+mouse_filter = 2
+script = ExtResource("1_2c860")
 
-[node name="Switch" parent="." instance=ExtResource("1_5pdvw")]
-layout_mode = 0
-offset_left = 707.0
-offset_top = 322.0
-offset_right = 751.0
-offset_bottom = 362.0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
+visible = false
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -242.923
+offset_top = -282.611
+offset_right = 243.077
+offset_bottom = 281.389
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_v25sp")
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 21.0
+offset_top = 34.0
+offset_right = -30.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Switch" parent="CanvasLayer/Panel/VBoxContainer" instance=ExtResource("1_5pdvw")]
+layout_mode = 2
 setting = ExtResource("2_0vao3")
 apply_on_changed = true
 
-[node name="Btn" parent="Switch" index="0"]
+[node name="Btn" parent="CanvasLayer/Panel/VBoxContainer/Switch" index="0"]
 text = "Fullscreen"
 
-[editable path="Switch"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Sfx   Volume     "
+
+[node name="Slider" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer" instance=ExtResource("3_fch5h")]
+layout_mode = 2
+setting = ExtResource("4_rpqwe")
+apply_on_changed = true
+
+[node name="Slider" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer/Slider" index="0"]
+custom_minimum_size = Vector2(200, 0)
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Music Volume     "
+
+[node name="Slider2" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer2" instance=ExtResource("3_fch5h")]
+layout_mode = 2
+setting = ExtResource("5_6rkuk")
+apply_on_changed = true
+
+[node name="Slider" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer2/Slider2" index="0"]
+custom_minimum_size = Vector2(200, 0)
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Mouse Sentitivity"
+
+[node name="Slider2" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer3" instance=ExtResource("3_fch5h")]
+layout_mode = 2
+setting = ExtResource("7_jef63")
+apply_on_changed = true
+
+[node name="Slider" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer3/Slider2" index="0"]
+custom_minimum_size = Vector2(200, 0)
+
+[node name="Switch2" parent="CanvasLayer/Panel/VBoxContainer" instance=ExtResource("1_5pdvw")]
+layout_mode = 2
+setting = ExtResource("9_rxjbt")
+apply_on_changed = true
+
+[node name="Btn" parent="CanvasLayer/Panel/VBoxContainer/Switch2" index="0"]
+text = "Blur"
+
+[node name="Switch3" parent="CanvasLayer/Panel/VBoxContainer" instance=ExtResource("1_5pdvw")]
+layout_mode = 2
+setting = ExtResource("10_8uu4l")
+apply_on_changed = true
+
+[node name="Btn" parent="CanvasLayer/Panel/VBoxContainer/Switch3" index="0"]
+text = "Debug"
+
+[node name="Resume" type="Button" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[connection signal="pressed" from="CanvasLayer/Panel/VBoxContainer/Resume" to="." method="resume"]
+
+[editable path="CanvasLayer/Panel/VBoxContainer/Switch"]
+[editable path="CanvasLayer/Panel/VBoxContainer/HBoxContainer/Slider"]
+[editable path="CanvasLayer/Panel/VBoxContainer/HBoxContainer2/Slider2"]
+[editable path="CanvasLayer/Panel/VBoxContainer/HBoxContainer3/Slider2"]
+[editable path="CanvasLayer/Panel/VBoxContainer/Switch2"]
+[editable path="CanvasLayer/Panel/VBoxContainer/Switch3"]

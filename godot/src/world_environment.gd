@@ -7,7 +7,10 @@ func _ready() -> void:
 	GameState.end_malfunction.connect(_on_malfunction_end)
 
 func _on_malfunction(_first):
-	environment.background_mode = Environment.BG_KEEP
+	if Settings.blur:
+		environment.background_mode = Environment.BG_KEEP
+	else:
+		environment.background_mode = Environment.BG_COLOR
 
 func _on_malfunction_end():
 	environment.background_mode = Environment.BG_COLOR
