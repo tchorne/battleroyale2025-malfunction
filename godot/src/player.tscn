@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://cw7y606enuklv"]
+[gd_scene load_steps=46 format=3 uid="uid://cw7y606enuklv"]
 
 [ext_resource type="Texture2D" uid="uid://bi5vhlaqigflv" path="res://assets/ignore/doomclone/gun_sprites.png" id="1_8y8w0"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_fof3h"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://b3gc5to06yl52" path="res://assets/kenney/kenney_interface-sounds/Audio/click_001.ogg" id="5_6rcmb"]
 [ext_resource type="Script" path="res://src/malfunction_popup.gd" id="5_85ihv"]
 [ext_resource type="Texture2D" uid="uid://bkfyc2o5c6obr" path="res://assets/custom/stoppedworking.png" id="5_qdo2s"]
+[ext_resource type="Script" path="res://src/gunsprite.gd" id="5_rioyd"]
 [ext_resource type="Texture2D" uid="uid://8h6l5jwlay3b" path="res://assets/custom/stoppedworkingprogress.png" id="6_8xf4s"]
 [ext_resource type="AudioStream" uid="uid://bii2ctm1efpeh" path="res://assets/kenney/kenney_rpg-audio/Audio/cloth3.ogg" id="6_q8ps5"]
 [ext_resource type="AudioStream" uid="uid://dg0af8u6y6a22" path="res://assets/ignore/punch/qubodupPunch01.ogg" id="7_8f2ti"]
@@ -227,7 +228,7 @@ tracks/3/path = NodePath("TextureProgressBar/Control/TextureRect:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.433333, 4.23333),
+"times": PackedFloat32Array(0, 0.433333, 3.06667),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, false, true]
@@ -622,6 +623,7 @@ scale = Vector2(0.679688, 0.65625)
 sprite_frames = SubResource("SpriteFrames_y634p")
 animation = &"jam"
 autoplay = "idle"
+script = ExtResource("5_rioyd")
 
 [node name="AmmoLabel" type="Label" parent="CanvasLayer/GunBase"]
 layout_mode = 0
@@ -694,7 +696,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(1, 1, 1, 0.00784314)
+color = Color(0.31, 0.31, 0.31, 0.164706)
 
 [node name="Hurt" type="ColorRect" parent="CanvasLayer/Fullscreen"]
 visible = false

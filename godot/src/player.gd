@@ -12,7 +12,7 @@ extends CharacterBody3D
 @onready var tutorial_anim: AnimationPlayer = $CanvasLayer/Tutorial/TutorialAnim
 
 const SPEED = 7.0
-const MOUSE_SENS = 0.5
+const MOUSE_SENS = 0.2
 const BOB_MAGNITUDE = 0.05
 const BOB_FREQ = 2.0
 const HIT_INVULN = 1.0
@@ -101,7 +101,9 @@ func process_inputs(_delta):
 		get_tree().quit()
 	if Input.is_action_just_pressed("restart"):
 		restart()
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_key_pressed(KEY_F11):
+		get_window().mode = Window.MODE_FULLSCREEN
+	if Input.is_action_just_pressed("shoot") or (GameState.malfunction and not Input.is_action_pressed("shoot")):
 		shoot()
 	if Input.is_action_just_pressed("melee"):
 		melee()
@@ -131,6 +133,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func shoot():
+	if dead: return
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if !can_shoot:
 		return
 	can_shoot = false
@@ -169,6 +173,8 @@ func shoot():
 		GameState.begin_hitstun(0.05)
 
 func melee():
+	if dead: 
+		return
 	if can_shoot == false or weapon_anim.is_playing():
 		return
 	can_shoot = false
