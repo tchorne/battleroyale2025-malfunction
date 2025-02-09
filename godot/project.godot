@@ -28,10 +28,15 @@ manager/music/bus="Music"
 
 GameState="*res://src/GameState.gd"
 MusicManager="*res://src/music_manager.tscn"
+GGS="*res://addons/ggs/plugin/singleton/ggs.tscn"
 
 [display]
 
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/addons/ggs/plugin.cfg", "res://addons/ggs/plugin.cfg")
 
 [global_group]
 
