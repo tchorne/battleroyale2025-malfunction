@@ -44,7 +44,7 @@ func _physics_process(delta: float) -> void:
 	if no_pickup_time > 0 and !freeze:
 		no_pickup_time -= delta
 		
-	if (global_position - player.global_position + Vector3.UP*0.5).length() < 3 and no_pickup_time < 0:
+	if (global_position - player.global_position + Vector3.UP*0.5).length() < 6 and no_pickup_time < 0:
 		towards_player = true
 		$Despawner.stop()
 		

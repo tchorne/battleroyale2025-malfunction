@@ -4,7 +4,7 @@ signal died
 
 const BULLET_DROP = preload("res://src/bullet_drop.tscn")
 const FIREBALL = preload("res://src/fireball.tscn")
-const FIREBALL_SPEED = 3.0
+const FIREBALL_SPEED = 4.5
 const TYPE_MELEE = 0
 const TYPE_RANGED = 1
 const TYPE_HITSCAN = 2
@@ -66,6 +66,10 @@ func _on_malfunction_end():
 	end_ammo_drop = 0
 	
 func _process(_delta: float) -> void:
+	if dead and GameState.malfunction:
+		animated_sprite_3d.modulate.a = 0.2
+	else:
+		animated_sprite_3d.modulate.a = 1.0
 	animated_sprite_3d.speed_scale = 0 if GameState.hitstun or GameState.malfunction else 1
 	pausable_timers.process_mode = Node.PROCESS_MODE_DISABLED if GameState.hitstun or GameState.malfunction else PROCESS_MODE_INHERIT
 	
@@ -107,7 +111,7 @@ func onhit():
 func die():
 	died.emit()
 	if GameState.malfunction:
-		end_ammo_drop = ceil(GameState.malfunction_combo / 3)
+		end_ammo_drop = ceil(GameState.malfunction_combo / 2)
 	else:
 		played_sound = true
 		$DeathSound.play()
@@ -151,15 +155,18 @@ func _on_attack_timer_timeout() -> void:
 		TYPE_MELEE:
 			pass
 		TYPE_RANGED:
-			# TODO if enemy in range
-			stop_and_fire()
-			attack_anim()
+			if player_in_distance(8, 25) and has_los():
+				stop_and_fire()
+				attack_anim()
+			else:
+				attack_timer.start(1.0)
 		TYPE_HITSCAN:
-			# TODO if enemy in range
-			
-			stop_and_fire()
-			$Shotgun.play()
-			attack_anim()
+			if player_in_distance(3, 15) and has_los():
+				stop_and_fire()
+				$Shotgun.play()
+				attack_anim()
+			else:
+				attack_timer.start(0.5)
 		TYPE_SPECTRE:
 			# TODO if enemy in range
 			
@@ -198,3 +205,18 @@ func fire():
 			
 func _on_stop_timer_timeout() -> void:
 	fire()
+	
+func has_los():
+	if type == TYPE_HITSCAN and abs((global_position - player.global_position).y) > 1.0: return false
+	if type == TYPE_HITSCAN and global_position.distance_squared_to(player.global_position) > 400: return false
+	
+	var query = PhysicsRayQueryParameters3D.create(global_position+Vector3.UP*1.5, player.global_position + Vector3.UP * 1.5)
+	query.collision_mask = 1
+	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
+	
+func player_in_distance(min, max):
+	if global_position.distance_squared_to(player.global_position) > max * max: return false
+	if global_position.distance_squared_to(player.global_position) < min * min: return false
+	
+	return true
+	

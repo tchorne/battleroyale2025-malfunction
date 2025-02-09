@@ -4,9 +4,11 @@ signal wave_cleared()
 signal begun_malfunction(first: bool)
 signal end_malfunction()
 signal begun_hitstun()
-
+signal game_ended(won: bool)
 
 const HITSTUN_REQUIREMENT = 1.0
+
+var wave := 0
 
 var hitstun := false
 var malfunction := false
@@ -78,4 +80,6 @@ func begin_hitstun(duration, _show_cursor = false):
 		malfunction = true
 		malfunction_combo = 0
 		MusicManager.fade_to(MusicManager.calm)
-	
+
+func game_over():
+	game_ended.emit(false)

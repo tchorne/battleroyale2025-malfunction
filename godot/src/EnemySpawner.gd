@@ -71,18 +71,45 @@ func prepare_for_next_wave():
 	$TimeToWave.start(2.0)
 
 func spawn_wave():
-	GameState.enemy_count = wave_size
 	
 	# calculate wave score
 	var points = wave_number * (wave_number+1) / 2
 	points += 5
 	
 	var hitscan_count = 0
+	var melee_count = 0
+	var imp_count = 0
+	var spectre_count = 0
 	
-
+	if wave_number < 2:
+		melee_count = points
+	elif wave_number == 2:
+		imp_count = ceil(points / 2)
+	else:
+		while points > 3:
+			match (randi()%3):
+				0:
+					melee_count += 1
+					points -= 1
+				1:
+					imp_count += 1
+					points -= 2
+				2:
+					hitscan_count += 1
+					points -= 3
+	
+	melee_count += points
+	spawn_type(0, melee_count)
+	spawn_type(1, imp_count)
+	spawn_type(2, hitscan_count)
+	spawn_type(3, spectre_count)
+	GameState.enemy_count = melee_count + imp_count + hitscan_count + spectre_count
+	
+	GameState.wave += 1
+	
 func spawn_barrels():
 	var barrel_count = get_tree().get_nodes_in_group("Barrel").size()
-	var barrels_to_spawn = 4-barrel_count
+	var barrels_to_spawn = 6-barrel_count
 	if barrels_to_spawn < 0: barrels_to_spawn = 0
 	
 	for i in range(barrels_to_spawn):

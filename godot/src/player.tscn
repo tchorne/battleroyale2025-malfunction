@@ -1,9 +1,10 @@
-[gd_scene load_steps=42 format=3 uid="uid://cw7y606enuklv"]
+[gd_scene load_steps=44 format=3 uid="uid://cw7y606enuklv"]
 
 [ext_resource type="Texture2D" uid="uid://bi5vhlaqigflv" path="res://assets/ignore/doomclone/gun_sprites.png" id="1_8y8w0"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_fof3h"]
 [ext_resource type="AudioStream" uid="uid://b48fyvlmj2al6" path="res://assets/ignore/doomclone/revolver_shot1.wav" id="2_2ncgx"]
 [ext_resource type="FontFile" uid="uid://dey1s1t7cy3gy" path="res://assets/fonts/Perfect DOS VGA 437 Win.ttf" id="3_4wo37"]
+[ext_resource type="Script" path="res://src/UI/game_stats.gd" id="3_b6m5u"]
 [ext_resource type="AudioStream" uid="uid://b3gc5to06yl52" path="res://assets/kenney/kenney_interface-sounds/Audio/click_001.ogg" id="5_6rcmb"]
 [ext_resource type="Script" path="res://src/malfunction_popup.gd" id="5_85ihv"]
 [ext_resource type="Texture2D" uid="uid://bkfyc2o5c6obr" path="res://assets/custom/stoppedworking.png" id="5_qdo2s"]
@@ -15,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://wlrgacaq3s7v" path="res://assets/custom/Tutorials/tut_fire.png" id="8_j1iut"]
 [ext_resource type="Texture2D" uid="uid://cljonjmc3gyc2" path="res://assets/custom/Tutorials/tut_melee.png" id="9_cobs0"]
 [ext_resource type="AudioStream" uid="uid://u7xbxf0v02mn" path="res://assets/custom/hurt.wav" id="9_r0h7j"]
+[ext_resource type="Script" path="res://src/UI/gameoverlabel.gd" id="10_0sr8d"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wjr0a"]
 
@@ -531,7 +533,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.240975, 0.211804, 0.210397, 0.945098)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/HUD"]
+[node name="GameStats" type="RichTextLabel" parent="CanvasLayer/HUD"]
 custom_minimum_size = Vector2(200, 75)
 layout_mode = 0
 offset_left = 260.0
@@ -543,6 +545,7 @@ theme_override_fonts/normal_font = ExtResource("3_4wo37")
 theme_override_font_sizes/normal_font_size = 36
 text = "        WAVE: 0
 ENEMIES LEFT: 0"
+script = ExtResource("3_b6m5u")
 
 [node name="Health" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -632,45 +635,6 @@ grow_vertical = 2
 scale = Vector2(0.21967, 0.21967)
 color = Color(1, 1, 1, 0.305882)
 
-[node name="DeathScreen" type="Control" parent="CanvasLayer"]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Panel" type="Panel" parent="CanvasLayer/DeathScreen"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -204.0
-offset_top = -123.0
-offset_right = 196.0
-offset_bottom = 77.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Button" type="Button" parent="CanvasLayer/DeathScreen/Panel"]
-layout_mode = 0
-offset_left = 153.0
-offset_top = 134.0
-offset_right = 228.0
-offset_bottom = 165.0
-text = "RESTART"
-
-[node name="Label" type="Label" parent="CanvasLayer/DeathScreen/Panel"]
-layout_mode = 0
-offset_left = 154.0
-offset_top = 60.0
-offset_right = 228.0
-offset_bottom = 83.0
-text = "You Died!"
-
 [node name="Fullscreen" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 15
@@ -739,10 +703,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -195.0
-offset_top = -290.0
-offset_right = 405.0
-offset_bottom = -40.0
+offset_left = -196.0
+offset_top = -91.0
+offset_right = 404.0
+offset_bottom = 159.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.65, 0.65)
@@ -794,6 +758,67 @@ offset_right = 1012.0
 offset_bottom = 566.0
 texture = ExtResource("9_cobs0")
 expand_mode = 1
+
+[node name="DeathScreen" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/DeathScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -204.0
+offset_top = -123.0
+offset_right = 196.0
+offset_bottom = 77.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/DeathScreen/Panel"]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -86.0
+offset_right = 150.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("3_4wo37")
+bbcode_enabled = true
+text = "[font_size=42][center]YOU DIED
+[font_size=26]WAVE REACHED: 15
+YOU WIN!"
+script = ExtResource("10_0sr8d")
+
+[node name="Button" type="Button" parent="CanvasLayer/DeathScreen/Panel"]
+layout_mode = 0
+offset_left = 153.0
+offset_top = 134.0
+offset_right = 228.0
+offset_bottom = 165.0
+text = "RESTART"
+
+[node name="Label" type="Label" parent="CanvasLayer/DeathScreen/Panel"]
+visible = false
+layout_mode = 0
+offset_left = 154.0
+offset_top = 60.0
+offset_right = 228.0
+offset_bottom = 83.0
+text = "You Died!"
 
 [node name="ShootSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_2ncgx")

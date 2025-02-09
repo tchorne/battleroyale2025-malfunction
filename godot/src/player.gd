@@ -85,7 +85,9 @@ func _process(delta: float) -> void:
 	if melee_invulnerable > 0:
 		invulnerable = true
 		melee_invulnerable -= delta
-	
+	if GameState.malfunction:
+		invulnerable = true
+		
 	process_inputs(delta)
 	
 	
@@ -191,6 +193,8 @@ func punch_active():
 	var bodies = $PunchArea.get_overlapping_areas() + $PunchArea.get_overlapping_bodies()
 	var enemies_hit := 0
 	for body in bodies:
+		if enemies_hit >= 4:
+			continue
 		if body == self: continue
 		if body.has_method("onhit"):
 			body.call("onhit")
@@ -226,14 +230,18 @@ func onhit():
 	$CanvasLayer/Fullscreen/ScreenAnim.play("hurt")
 	$Hurt.play()
 	
-	health -= 10
+	health -= 15
 	post_hit_invulnerable = HIT_INVULN
 	update_ui()
 	if health <= 0:
+		GameState.game_over()
 		dead = true
 		health = 0
 		$CanvasLayer/DeathScreen.show()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+func _on_game_ended(won):
+	$CanvasLayer/DeathScreen.show()
 	
 func add_ammo():
 	if ammo < 12:
