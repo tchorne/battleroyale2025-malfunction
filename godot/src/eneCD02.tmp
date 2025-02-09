@@ -1,14 +1,11 @@
-[gd_scene load_steps=36 format=3 uid="uid://cv4wwr0w6j1yj"]
+[gd_scene load_steps=26 format=3 uid="uid://cv4wwr0w6j1yj"]
 
 [ext_resource type="Texture2D" uid="uid://b68wylrqht58b" path="res://assets/ignore/doomclone/monster_sprites.png" id="1_bkjkw"]
 [ext_resource type="Script" path="res://src/enemy.gd" id="1_pnfpi"]
 [ext_resource type="AudioStream" uid="uid://datmglmgqcu3d" path="res://assets/ignore/doomclone/monster_die.wav" id="2_ldufh"]
 [ext_resource type="Texture2D" uid="uid://c5blp2m115845" path="res://assets/custom/imptrace.png" id="3_mpnit"]
-[ext_resource type="Texture2D" uid="uid://oo1d45l8bup3" path="res://assets/custom/shotguntrace.png" id="4_d2emk"]
 [ext_resource type="PackedScene" uid="uid://bbv4tvqw2qjdg" path="res://src/despawner.tscn" id="4_xo871"]
 [ext_resource type="Script" path="res://src/enemy_hitbox.gd" id="5_qm32v"]
-[ext_resource type="AudioStream" uid="uid://bk36oqrc6tuuo" path="res://assets/ignore/Snake's Authentic Gun Sounds And More/Snake's Authentic Gun Sounds/Reloads, Cycling & More/WAV/Pump Reload Full WAV.wav" id="6_5k1kg"]
-[ext_resource type="AudioStream" uid="uid://l20txupvv3ij" path="res://assets/ignore/Snake's Authentic Gun Sounds And More/Snake's Authentic Gun Sounds/Isolated/7.62x54R/WAV/762x54r Single Isolated WAV.wav" id="7_aycqp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lb1wf"]
 
@@ -76,34 +73,6 @@ region = Rect2(486, 0, 243, 245)
 atlas = ExtResource("3_mpnit")
 region = Rect2(729, 0, 243, 245)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kkw41"]
-atlas = ExtResource("4_d2emk")
-region = Rect2(732, 0, 244, 245)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3e6jt"]
-atlas = ExtResource("4_d2emk")
-region = Rect2(976, 0, 244, 245)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lrti4"]
-atlas = ExtResource("4_d2emk")
-region = Rect2(1220, 0, 244, 245)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ad557"]
-atlas = ExtResource("4_d2emk")
-region = Rect2(0, 0, 244, 245)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5u6xa"]
-atlas = ExtResource("4_d2emk")
-region = Rect2(244, 0, 244, 245)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bayjf"]
-atlas = ExtResource("4_d2emk")
-region = Rect2(488, 0, 244, 245)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ipkcb"]
-atlas = ExtResource("4_d2emk")
-region = Rect2(732, 0, 244, 245)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_8u6f8"]
 animations = [{
 "frames": [{
@@ -159,9 +128,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ntjck")
 }],
-"loop": false,
+"loop": true,
 "name": &"impfireball",
-"speed": 8.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -179,40 +148,6 @@ animations = [{
 "loop": true,
 "name": &"impidle",
 "speed": 8.0
-}, {
-"frames": [{
-"duration": 3.0,
-"texture": SubResource("AtlasTexture_kkw41")
-}, {
-"duration": 3.0,
-"texture": SubResource("AtlasTexture_3e6jt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lrti4")
-}, {
-"duration": 2.0,
-"texture": SubResource("AtlasTexture_3e6jt")
-}],
-"loop": false,
-"name": &"shotgunattack",
-"speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ad557")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5u6xa")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bayjf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ipkcb")
-}],
-"loop": true,
-"name": &"shotgunidle",
-"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6mj06"]
@@ -231,25 +166,15 @@ shape = SubResource("CapsuleShape3D_lb1wf")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 pixel_size = 0.009
 billboard = 2
+texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_8u6f8")
-animation = &"shotgunattack"
+animation = &"death"
 autoplay = "idle"
-frame = 3
+frame = 4
 frame_progress = 1.0
 
 [node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_ldufh")
-unit_size = 2.0
-bus = &"Sfx"
-
-[node name="Shotgun" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("6_5k1kg")
-unit_size = 2.0
-bus = &"Sfx"
-
-[node name="Shotgun2" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("7_aycqp")
-volume_db = 2.896
 unit_size = 2.0
 bus = &"Sfx"
 
@@ -279,7 +204,6 @@ one_shot = true
 autostart = true
 
 [node name="StopTimer" type="Timer" parent="PausableTimers"]
-one_shot = true
 
 [connection signal="timeout" from="UpdateNavigation" to="." method="update_navigation"]
 [connection signal="timeout" from="PausableTimers/AttackTimer" to="." method="_on_attack_timer_timeout"]

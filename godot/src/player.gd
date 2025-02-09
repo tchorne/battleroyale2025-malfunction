@@ -9,6 +9,7 @@ extends CharacterBody3D
 @onready var weapon_anim: AnimationPlayer = $WeaponAnim
 @onready var hitstun_overlay: ColorRect = $CanvasLayer/Fullscreen/Hitstun
 @onready var malfunction_overlay: ColorRect = $CanvasLayer/Fullscreen/Malfunction
+@onready var tutorial_anim: AnimationPlayer = $CanvasLayer/Tutorial/TutorialAnim
 
 const SPEED = 7.0
 const MOUSE_SENS = 0.5
@@ -34,6 +35,7 @@ var invulnerable := false
 var post_hit_invulnerable := 0.0
 var melee_invulnerable := 0.0
 
+var tutorial_step := 0
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -41,6 +43,12 @@ func _ready():
 	#weapon_anim.animation_finished.connect()
 	$CanvasLayer/DeathScreen/Panel/Button.button_up.connect(restart)
 	update_ui()
+	
+	if tutorial_step == 0:
+		$CanvasLayer/Tutorial/Move.visible = true
+		$CanvasLayer/Tutorial/Move.position = Vector2(4, -11)
+		$CanvasLayer/Tutorial/Fire.position = Vector2(-5000, -5000)
+		$CanvasLayer/Tutorial/Melee.position = Vector2(-5000, -5000)
 	
 func anim_finished():
 	if animated_sprite_2d.animation == "shoot":
@@ -105,7 +113,11 @@ func _physics_process(delta: float) -> void:
 	
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forwards", "move_backwards")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
+	if not direction.is_zero_approx() and tutorial_step == 0:
+		tutorial_step += 1
+		$CanvasLayer/Tutorial/Fire.visible = true
+		tutorial_anim.play("move")
+		
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
@@ -121,10 +133,19 @@ func shoot():
 		return
 	can_shoot = false
 	
+	if tutorial_step == 1:
+		tutorial_step += 1
+		tutorial_anim.play("shoot")
+		$CanvasLayer/Tutorial/Move.visible = false
+	
 	if !GameState.malfunction:	
 		if jam_next_shot:
 			gun_jammed = true
 			jam_next_shot = false
+			if tutorial_step == 2:
+				tutorial_step += 1
+				$CanvasLayer/Tutorial/Melee.visible = true
+				tutorial_anim.play("meleestart")
 			update_ui()
 			
 		if gun_jammed or ammo <= 0:
@@ -185,6 +206,10 @@ func punch_active():
 			gun_jammed = false
 			play_reload_sound = true
 		GameState.begin_hitstun(0.1 + 0.05 * enemies_hit)
+		if tutorial_step == 3:
+			tutorial_step += 1
+			tutorial_anim.play("meleeend")
+		
 	update_ui()
 
 func reload_sound():
@@ -217,7 +242,7 @@ func add_ammo():
 
 func add_health():
 	health += 10
-	health = max(health, max_health)
+	health = min(health, max_health)
 	update_ui()
 	
 func calculate_health_percent():
@@ -229,3 +254,9 @@ func calculate_health_percent():
 	var mod_health = health / 10
 	return clamp(float(ammo) / float(mod_health), 0.2, 0.8)
 	
+
+
+func _on_random_stats_timeout() -> void:
+	if GameState.malfunction:
+		$CanvasLayer/GunBase/AmmoCount.text = str(randi()%100)
+		$CanvasLayer/Health/HealthCount.text = str(randi()%1000)

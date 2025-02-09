@@ -72,13 +72,13 @@ func prepare_for_next_wave():
 
 func spawn_wave():
 	GameState.enemy_count = wave_size
-	for i in range(wave_size):
-		var spawn_point = pick_random_point()
-		var enemy = ENEMY.instantiate()
-		get_parent().add_child(enemy)
-		enemy.global_position = spawn_point + Vector3.UP * 0.2
-		spawn_sound.play()
-		await get_tree().create_timer(0.2).timeout
+	
+	# calculate wave score
+	var points = wave_number * (wave_number+1) / 2
+	points += 5
+	
+	var hitscan_count = 0
+	
 
 func spawn_barrels():
 	var barrel_count = get_tree().get_nodes_in_group("Barrel").size()
@@ -91,6 +91,17 @@ func spawn_barrels():
 		get_parent().add_child(barrel)
 		barrel.global_position = spawn_point
 		spawn_sound.play()
+
+func spawn_type(enemy_type, count):
+	for i in range(count):
+		var spawn_point = pick_random_point()
+		var enemy = ENEMY.instantiate()
+		get_parent().add_child(enemy)
+		enemy.set_type(enemy_type)
+		enemy.global_position = spawn_point + Vector3.UP * 0.2
+		spawn_sound.play()
+		await get_tree().create_timer(0.2).timeout
+
 
 func _on_time_to_wave_timeout() -> void:
 	spawn_wave()

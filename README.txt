@@ -7,7 +7,7 @@ Non-original assets:
 Gun and enemy sprites from:
  - https://www.youtube.com/watch?v=jzbgH4AMtI8
 
-
+Imp and Cacodemon graphics referenced DOOM spritesheet (thanks to Falcon Delta for the rips)
 
 Gun sounds:
  - https://f8studios.itch.io/snakes-authentic-gun-sounds

@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cw7y606enuklv"]
+[gd_scene load_steps=42 format=3 uid="uid://cw7y606enuklv"]
 
 [ext_resource type="Texture2D" uid="uid://bi5vhlaqigflv" path="res://assets/ignore/doomclone/gun_sprites.png" id="1_8y8w0"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_fof3h"]
@@ -11,6 +11,9 @@
 [ext_resource type="AudioStream" uid="uid://bii2ctm1efpeh" path="res://assets/kenney/kenney_rpg-audio/Audio/cloth3.ogg" id="6_q8ps5"]
 [ext_resource type="AudioStream" uid="uid://dg0af8u6y6a22" path="res://assets/ignore/punch/qubodupPunch01.ogg" id="7_8f2ti"]
 [ext_resource type="AudioStream" uid="uid://dfn2tlwj5s2vm" path="res://assets/ignore/Snake's Authentic Gun Sounds And More/Snake's Authentic Gun Sounds/Reloads, Cycling & More/WAV/AR Bolt Release WAV.wav" id="7_evoq3"]
+[ext_resource type="Texture2D" uid="uid://bwww1884bnf3o" path="res://assets/custom/Tutorials/tut_move.png" id="7_ifwbv"]
+[ext_resource type="Texture2D" uid="uid://wlrgacaq3s7v" path="res://assets/custom/Tutorials/tut_fire.png" id="8_j1iut"]
+[ext_resource type="Texture2D" uid="uid://cljonjmc3gyc2" path="res://assets/custom/Tutorials/tut_melee.png" id="9_cobs0"]
 [ext_resource type="AudioStream" uid="uid://u7xbxf0v02mn" path="res://assets/custom/hurt.wav" id="9_r0h7j"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wjr0a"]
@@ -249,6 +252,127 @@ _data = {
 "secondmalfunction": SubResource("Animation_dytar")
 }
 
+[sub_resource type="Animation" id="Animation_mbl7p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Move:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-855, -8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fire:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(553, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Melee:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(406, 133)]
+}
+
+[sub_resource type="Animation" id="Animation_6sk0g"]
+resource_name = "move"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Move:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.266667, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(4, -11), Vector2(4, -11), Vector2(-855, -8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fire:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3, 0.866667, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1165, -5), Vector2(553, 0), Vector2(553, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_j5sb2"]
+resource_name = "shoot"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fire:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.266667, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(553, 0), Vector2(553, 0), Vector2(1329, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_ydb34"]
+resource_name = "meleestart"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Melee:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.866667, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1207, 191), Vector2(623, 307), Vector2(623, 307)]
+}
+
+[sub_resource type="Animation" id="Animation_dplwe"]
+resource_name = "meleeend"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Melee:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.133333, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(623, 307), Vector2(623, 307), Vector2(1207, 191)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ucbfh"]
+_data = {
+"RESET": SubResource("Animation_mbl7p"),
+"meleeend": SubResource("Animation_dplwe"),
+"meleestart": SubResource("Animation_ydb34"),
+"move": SubResource("Animation_6sk0g"),
+"shoot": SubResource("Animation_j5sb2")
+}
+
 [sub_resource type="Animation" id="Animation_mg2po"]
 length = 0.001
 tracks/0/type = "value"
@@ -355,7 +479,7 @@ _data = {
 size = Vector3(1.06189, 1.75537, 1.84607)
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
-collision_layer = 2
+collision_layer = 6
 collision_mask = 3
 script = ExtResource("1_fof3h")
 
@@ -388,14 +512,46 @@ mesh = SubResource("BoxMesh_njaft")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
+[node name="HUD" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -129.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.240975, 0.211804, 0.210397, 0.945098)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/HUD"]
+custom_minimum_size = Vector2(200, 75)
+layout_mode = 0
+offset_left = 260.0
+offset_top = 31.0
+offset_right = 660.0
+offset_bottom = 131.0
+theme_override_colors/default_color = Color(0.592157, 0.592157, 0.592157, 1)
+theme_override_fonts/normal_font = ExtResource("3_4wo37")
+theme_override_font_sizes/normal_font_size = 36
+text = "        WAVE: 0
+ENEMIES LEFT: 0"
+
 [node name="Health" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 201.0
+offset_left = 30.0
 offset_top = -40.0
-offset_right = 241.0
+offset_right = 70.0
 grow_vertical = 0
 
 [node name="HealthLabel" type="Label" parent="CanvasLayer/Health"]
@@ -523,6 +679,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
 [node name="ScreenAnim" type="AnimationPlayer" parent="CanvasLayer/Fullscreen"]
 libraries = {
@@ -600,6 +757,44 @@ libraries = {
 "": SubResource("AnimationLibrary_qlgyh")
 }
 
+[node name="Tutorial" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TutorialAnim" type="AnimationPlayer" parent="CanvasLayer/Tutorial"]
+libraries = {
+"": SubResource("AnimationLibrary_ucbfh")
+}
+
+[node name="Move" type="TextureRect" parent="CanvasLayer/Tutorial"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = -11.0
+offset_right = 604.0
+offset_bottom = 389.0
+texture = ExtResource("7_ifwbv")
+
+[node name="Fire" type="TextureRect" parent="CanvasLayer/Tutorial"]
+visible = false
+layout_mode = 0
+offset_left = 1165.0
+offset_top = -5.0
+offset_right = 1765.0
+offset_bottom = 395.0
+texture = ExtResource("8_j1iut")
+
+[node name="Melee" type="TextureRect" parent="CanvasLayer/Tutorial"]
+visible = false
+layout_mode = 0
+offset_left = 623.0
+offset_top = 307.0
+offset_right = 1012.0
+offset_bottom = 566.0
+texture = ExtResource("9_cobs0")
+expand_mode = 1
+
 [node name="ShootSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_2ncgx")
 bus = &"Sfx"
@@ -642,3 +837,9 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PunchArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.159697, -0.377686, -0.855638)
 shape = SubResource("BoxShape3D_dx5c2")
+
+[node name="RandomStats" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[connection signal="timeout" from="RandomStats" to="." method="_on_random_stats_timeout"]
