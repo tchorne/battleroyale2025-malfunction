@@ -30,7 +30,10 @@ var malfunction_combo := 0
 func enemy_killed():
 	enemy_count -= 1
 	if enemy_count == 0:
-		wave_cleared.emit()
+		if wave >= 10:
+			game_ended.emit(true)
+		else:
+			wave_cleared.emit()
 	if malfunction:
 		malfunction_combo += 1
 
@@ -43,6 +46,7 @@ func _process(delta: float) -> void:
 	if malfunction:
 		malfunction_remaining -= delta
 		if malfunction_remaining <= 0:
+			first_malfunction = false
 			malfunction = false
 			end_malfunction.emit()
 			MusicManager.fade_to(MusicManager.full)
@@ -66,17 +70,17 @@ func begin_hitstun(duration, _show_cursor = false):
 	if duration > HITSTUN_REQUIREMENT:
 		if first_malfunction: 
 			hitstun_remaining *= 5.0
-			duration *= 8.0
-			duration = max(duration, 10.0)
+			duration *= 9.0
+			duration = max(duration, 12.0)
 		else:
 			hitstun_remaining *= 1.5
-			duration *= 4.0
-			duration = max(duration, 7.0)
+			duration *= 5.5
+			duration = max(duration, 8.0)
 		begun_malfunction.emit(first_malfunction)
 		malfunction_totaltime = duration
 		malfunction_remaining = malfunction_totaltime
 		hitstun_mult = 1.0
-		first_malfunction = false
+		
 		malfunction = true
 		malfunction_combo = 0
 		MusicManager.fade_to(MusicManager.calm)

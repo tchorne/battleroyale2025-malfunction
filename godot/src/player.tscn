@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://cw7y606enuklv"]
+[gd_scene load_steps=45 format=3 uid="uid://cw7y606enuklv"]
 
 [ext_resource type="Texture2D" uid="uid://bi5vhlaqigflv" path="res://assets/ignore/doomclone/gun_sprites.png" id="1_8y8w0"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_fof3h"]
@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://dfn2tlwj5s2vm" path="res://assets/ignore/Snake's Authentic Gun Sounds And More/Snake's Authentic Gun Sounds/Reloads, Cycling & More/WAV/AR Bolt Release WAV.wav" id="7_evoq3"]
 [ext_resource type="Texture2D" uid="uid://bwww1884bnf3o" path="res://assets/custom/Tutorials/tut_move.png" id="7_ifwbv"]
 [ext_resource type="Texture2D" uid="uid://wlrgacaq3s7v" path="res://assets/custom/Tutorials/tut_fire.png" id="8_j1iut"]
+[ext_resource type="Texture2D" uid="uid://dws85wp21hfbj" path="res://assets/custom/error-helpertextr.png" id="8_o4gph"]
 [ext_resource type="Texture2D" uid="uid://cljonjmc3gyc2" path="res://assets/custom/Tutorials/tut_melee.png" id="9_cobs0"]
 [ext_resource type="AudioStream" uid="uid://u7xbxf0v02mn" path="res://assets/custom/hurt.wav" id="9_r0h7j"]
 [ext_resource type="Script" path="res://src/UI/gameoverlabel.gd" id="10_0sr8d"]
@@ -168,6 +169,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(-176, -71)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TextureProgressBar/Control/TextureRect:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_0t207"]
 resource_name = "firstmalfunction"
@@ -206,6 +219,18 @@ tracks/2/keys = {
 "times": PackedFloat32Array(),
 "transitions": PackedFloat32Array(),
 "values": []
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TextureProgressBar/Control/TextureRect:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.433333, 4.23333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, false, true]
 }
 
 [sub_resource type="Animation" id="Animation_dytar"]
@@ -537,12 +562,13 @@ color = Color(0.240975, 0.211804, 0.210397, 0.945098)
 custom_minimum_size = Vector2(200, 75)
 layout_mode = 0
 offset_left = 260.0
-offset_top = 31.0
+offset_top = 10.0
 offset_right = 660.0
-offset_bottom = 131.0
+offset_bottom = 110.0
 theme_override_colors/default_color = Color(0.592157, 0.592157, 0.592157, 1)
 theme_override_fonts/normal_font = ExtResource("3_4wo37")
 theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
 text = "        WAVE: 0
 ENEMIES LEFT: 0"
 script = ExtResource("3_b6m5u")
@@ -716,6 +742,23 @@ rounded = true
 texture_under = ExtResource("5_qdo2s")
 texture_progress = ExtResource("6_8xf4s")
 
+[node name="Control" type="Control" parent="CanvasLayer/Malfunction/TextureProgressBar"]
+anchors_preset = 0
+offset_left = -1.53845
+offset_top = 250.769
+offset_right = 38.4615
+offset_bottom = 290.769
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Malfunction/TextureProgressBar/Control"]
+visible = false
+layout_mode = 0
+offset_left = -110.769
+offset_right = 489.231
+offset_bottom = 50.0
+scale = Vector2(1.48928, 1.48288)
+texture = ExtResource("8_o4gph")
+expand_mode = 1
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Malfunction"]
 libraries = {
 "": SubResource("AnimationLibrary_qlgyh")
@@ -734,28 +777,27 @@ libraries = {
 
 [node name="Move" type="TextureRect" parent="CanvasLayer/Tutorial"]
 layout_mode = 0
-offset_left = 4.0
-offset_top = -11.0
-offset_right = 604.0
-offset_bottom = 389.0
+offset_left = -855.0
+offset_top = -8.0
+offset_right = -255.0
+offset_bottom = 392.0
 texture = ExtResource("7_ifwbv")
 
 [node name="Fire" type="TextureRect" parent="CanvasLayer/Tutorial"]
 visible = false
 layout_mode = 0
-offset_left = 1165.0
-offset_top = -5.0
-offset_right = 1765.0
-offset_bottom = 395.0
+offset_left = 553.0
+offset_right = 1153.0
+offset_bottom = 400.0
 texture = ExtResource("8_j1iut")
 
 [node name="Melee" type="TextureRect" parent="CanvasLayer/Tutorial"]
 visible = false
 layout_mode = 0
-offset_left = 623.0
-offset_top = 307.0
-offset_right = 1012.0
-offset_bottom = 566.0
+offset_left = 406.0
+offset_top = 133.0
+offset_right = 795.0
+offset_bottom = 392.0
 texture = ExtResource("9_cobs0")
 expand_mode = 1
 

@@ -214,9 +214,9 @@ func has_los():
 	query.collision_mask = 1
 	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
 	
-func player_in_distance(min, max):
-	if global_position.distance_squared_to(player.global_position) > max * max: return false
-	if global_position.distance_squared_to(player.global_position) < min * min: return false
+func player_in_distance(a, b):
+	if global_position.distance_squared_to(player.global_position) > b * b: return false
+	if global_position.distance_squared_to(player.global_position) < a * a: return false
 	
 	return true
 	

@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bbv4tvqw2qjdg" path="res://src/despawner.tscn" id="5_qu3xn"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_t3l7p"]
-height = 3.61206
+height = 14.5402
 radius = 0.576535
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vg2jo"]
@@ -77,11 +77,11 @@ collision_layer = 3
 script = ExtResource("1_0iayo")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58431, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.13992, 0)
 shape = SubResource("CylinderShape3D_t3l7p")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.486876, 0)
+transform = Transform3D(1.10336, 0, 0, 0, 1.38709, 0, 0, 0, 1.10336, 0, 0.659049, 0)
 pixel_size = 0.004
 billboard = 2
 sprite_frames = SubResource("SpriteFrames_sqlib")

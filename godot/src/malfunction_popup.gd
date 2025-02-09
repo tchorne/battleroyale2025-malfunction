@@ -2,6 +2,7 @@ extends Control
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var texture_progress_bar: TextureProgressBar = $TextureProgressBar
+@onready var helper: TextureRect = $TextureProgressBar/Control/TextureRect
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -14,7 +15,7 @@ func _process(delta: float) -> void:
 	var time_progress = (GameState.malfunction_totaltime - GameState.malfunction_remaining) / GameState.malfunction_totaltime
 	
 	texture_progress_bar.value = lerp(2.0/16.0, 14.0/16.0, time_progress*16)
-	
+	helper.position = Vector2(randf()*3.0, randf()*3.0)
 	
 func _on_malfunction(first):
 	if first:

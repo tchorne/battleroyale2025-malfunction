@@ -23,9 +23,9 @@ func fade_to(new):
 	current_stream = new
 
 func _process(delta: float) -> void:
-	full_volume = clampf(full_volume + delta * (CROSS_SPEED * 1 if current_stream == full else -1), 0.0, 1.0)
-	calm_volume = clampf(calm_volume + delta * (CROSS_SPEED * 1 if current_stream == calm else -1), 0.0, 1.0)
-	nodrums_volume = clampf(nodrums_volume + delta * (CROSS_SPEED * 1 if current_stream == nodrums else -1), 0.0, 1.0)
+	full_volume = clampf(full_volume + delta * (CROSS_SPEED * (1 if current_stream == full else -1)), 0.0, 1.0)
+	calm_volume = clampf(calm_volume + delta * (CROSS_SPEED * (1 if current_stream == calm else -1)), 0.0, 1.0)
+	nodrums_volume = clampf(nodrums_volume + delta * (CROSS_SPEED * (1 if current_stream == nodrums else -1)), 0.0, 1.0)
 
 	full.volume_db = linear_to_db(full_volume)
 	calm.volume_db = linear_to_db(calm_volume)

@@ -81,10 +81,14 @@ func spawn_wave():
 	var imp_count = 0
 	var spectre_count = 0
 	
-	if wave_number < 2:
+	if wave_number > 10:
+		melee_count = 5
+	elif wave_number < 2:
 		melee_count = points
 	elif wave_number == 2:
 		imp_count = ceil(points / 2)
+	elif wave_number == 3:
+		hitscan_count = ceil(points / 3)
 	else:
 		while points > 3:
 			match (randi()%3):
@@ -98,7 +102,8 @@ func spawn_wave():
 					hitscan_count += 1
 					points -= 3
 	
-	melee_count += points
+		melee_count += points
+		
 	spawn_type(0, melee_count)
 	spawn_type(1, imp_count)
 	spawn_type(2, hitscan_count)

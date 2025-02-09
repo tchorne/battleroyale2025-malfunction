@@ -240,7 +240,7 @@ func onhit():
 		$CanvasLayer/DeathScreen.show()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
-func _on_game_ended(won):
+func _on_game_ended(_won):
 	$CanvasLayer/DeathScreen.show()
 	
 func add_ammo():
