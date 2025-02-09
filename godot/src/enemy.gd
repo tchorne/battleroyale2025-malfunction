@@ -30,6 +30,7 @@ var hitscan_player_position := Vector3.ZERO
 var health = 1
 
 func _ready():
+	$SpawnParticles.restart()
 	died.connect(GameState.enemy_killed)
 	GameState.end_malfunction.connect(_on_malfunction_end)
 	animated_sprite_3d.animation_finished.connect(anim_done)
@@ -78,7 +79,7 @@ func _process(_delta: float) -> void:
 	if dead and GameState.malfunction:
 		animated_sprite_3d.modulate.a = 0.2
 	else:
-		if type == TYPE_SPECTRE and !GameState.malfunction:
+		if type == TYPE_SPECTRE and !GameState.malfunction and not dead:
 			animated_sprite_3d.modulate.a = 0.4
 		else:
 			animated_sprite_3d.modulate.a = 1.0
@@ -122,6 +123,7 @@ func get_speed():
 			return move_speed*1.1
 
 func onhit():
+	if dead: return
 	health -= 1
 	if health <= 0:
 		die()
@@ -134,10 +136,16 @@ func die():
 		end_ammo_drop = ceil(GameState.malfunction_combo / 2)
 	else:
 		played_sound = true
+		if type==TYPE_SPECTRE:
+			$DeathSound.pitch_scale = 0.7
 		$DeathSound.play()
 		
 	dead = true
-	animated_sprite_3d.play("death")
+	if type == TYPE_SPECTRE:
+		animated_sprite_3d.position.y -= 0.5
+		animated_sprite_3d.play("spectredeath")
+	else:
+		animated_sprite_3d.play("death")
 	$CollisionShape3D.disabled = true
 	$Hitbox/Hitbox.disabled = true
 	$Despawner.despawn(15.0)

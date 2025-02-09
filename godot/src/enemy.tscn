@@ -1,16 +1,16 @@
-[gd_scene load_steps=38 format=3 uid="uid://cv4wwr0w6j1yj"]
+[gd_scene load_steps=47 format=3 uid="uid://cv4wwr0w6j1yj"]
 
 [ext_resource type="Texture2D" uid="uid://b68wylrqht58b" path="res://assets/ignore/doomclone/monster_sprites.png" id="1_bkjkw"]
 [ext_resource type="Script" path="res://src/enemy.gd" id="1_pnfpi"]
 [ext_resource type="AudioStream" uid="uid://datmglmgqcu3d" path="res://assets/ignore/doomclone/monster_die.wav" id="2_ldufh"]
-[ext_resource type="Texture2D" uid="uid://uwe1j7fgd8wg" path="res://assets/custom/barrel.png" id="3_fxvkg"]
 [ext_resource type="Texture2D" uid="uid://c5blp2m115845" path="res://assets/custom/imptrace.png" id="3_mpnit"]
+[ext_resource type="Texture2D" uid="uid://cdkn8jk2o3tsr" path="res://assets/custom/demon.png" id="3_wv20l"]
 [ext_resource type="Texture2D" uid="uid://oo1d45l8bup3" path="res://assets/custom/shotguntrace.png" id="4_d2emk"]
 [ext_resource type="PackedScene" uid="uid://bbv4tvqw2qjdg" path="res://src/despawner.tscn" id="4_xo871"]
-[ext_resource type="Texture2D" uid="uid://cvsvpj2hki0gc" path="res://assets/custom/fireball.png" id="5_ku2j0"]
 [ext_resource type="Script" path="res://src/enemy_hitbox.gd" id="5_qm32v"]
 [ext_resource type="AudioStream" uid="uid://bk36oqrc6tuuo" path="res://assets/ignore/Snake's Authentic Gun Sounds And More/Snake's Authentic Gun Sounds/Reloads, Cycling & More/WAV/Pump Reload Full WAV.wav" id="6_5k1kg"]
 [ext_resource type="AudioStream" uid="uid://l20txupvv3ij" path="res://assets/ignore/Snake's Authentic Gun Sounds And More/Snake's Authentic Gun Sounds/Isolated/7.62x54R/WAV/762x54r Single Isolated WAV.wav" id="7_aycqp"]
+[ext_resource type="PackedScene" uid="uid://b2cf1vd1havxb" path="res://src/spawn_particles.tscn" id="11_00mnq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lb1wf"]
 
@@ -33,6 +33,10 @@ region = Rect2(768, 256, 256, 256)
 [sub_resource type="AtlasTexture" id="AtlasTexture_q7v6e"]
 atlas = ExtResource("1_bkjkw")
 region = Rect2(1024, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l2n3n"]
+atlas = ExtResource("3_wv20l")
+region = Rect2(1050, 347, 350, 347)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ix5rh"]
 atlas = ExtResource("1_bkjkw")
@@ -106,6 +110,38 @@ region = Rect2(488, 0, 244, 245)
 atlas = ExtResource("4_d2emk")
 region = Rect2(732, 0, 244, 245)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ns6o7"]
+atlas = ExtResource("3_wv20l")
+region = Rect2(1050, 347, 350, 347)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_43kpy"]
+atlas = ExtResource("3_wv20l")
+region = Rect2(0, 347, 350, 347)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nw3x8"]
+atlas = ExtResource("3_wv20l")
+region = Rect2(350, 347, 350, 347)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auj6i"]
+atlas = ExtResource("3_wv20l")
+region = Rect2(700, 347, 350, 347)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6cbl"]
+atlas = ExtResource("3_wv20l")
+region = Rect2(0, 0, 350, 347)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jkp3k"]
+atlas = ExtResource("3_wv20l")
+region = Rect2(350, 0, 350, 347)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q36lt"]
+atlas = ExtResource("3_wv20l")
+region = Rect2(700, 0, 350, 347)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_di6wg"]
+atlas = ExtResource("3_wv20l")
+region = Rect2(1050, 0, 350, 347)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_8u6f8"]
 animations = [{
 "frames": [{
@@ -130,11 +166,11 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_fxvkg")
+"texture": SubResource("AtlasTexture_l2n3n")
 }],
 "loop": false,
 "name": &"hurt",
-"speed": 15.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -226,11 +262,37 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_ku2j0")
+"texture": SubResource("AtlasTexture_ns6o7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_43kpy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nw3x8")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_auj6i")
+}],
+"loop": false,
+"name": &"spectredeath",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6cbl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jkp3k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q36lt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_di6wg")
 }],
 "loop": true,
 "name": &"spectreidle",
-"speed": 5.0
+"speed": 6.0
 }]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6mj06"]
@@ -296,6 +358,8 @@ autostart = true
 
 [node name="StopTimer" type="Timer" parent="PausableTimers"]
 one_shot = true
+
+[node name="SpawnParticles" parent="." instance=ExtResource("11_00mnq")]
 
 [connection signal="timeout" from="UpdateNavigation" to="." method="update_navigation"]
 [connection signal="timeout" from="PausableTimers/AttackTimer" to="." method="_on_attack_timer_timeout"]

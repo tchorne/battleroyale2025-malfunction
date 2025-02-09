@@ -6,6 +6,9 @@ var damaged = false
 
 var exploded := false
 
+func _ready() -> void:
+	$SpawnParticles.restart()
+
 func _process(_delta: float) -> void:
 	particles.process_mode = Node.PROCESS_MODE_DISABLED if GameState.hitstun else Node.PROCESS_MODE_INHERIT
 	

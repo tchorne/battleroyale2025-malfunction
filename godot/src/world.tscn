@@ -62,4 +62,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.01418, 4.76837e-07, 2.25627
 [node name="Barrel4" parent="." instance=ExtResource("4_tksgu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.49325, 4.76837e-07, 8.19624)
 
+[node name="Timer" type="Timer" parent="."]
+process_mode = 3
+wait_time = 4.0
+autostart = true
+
 [connection signal="timeout" from="EnemySpawner/TimeToWave" to="EnemySpawner" method="_on_time_to_wave_timeout"]
+[connection signal="timeout" from="Timer" to="EnemySpawner" method="_on_timer_timeout"]

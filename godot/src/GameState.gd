@@ -12,7 +12,7 @@ const TOTAL_WAVES = 13
 const HITSTUN_REQUIREMENT = 1.0
 
 var wave := 0
-
+var has_won := false
 
 var hitstun := false
 var malfunction := false
@@ -103,6 +103,11 @@ func begin_hitstun(duration, _show_cursor = false):
 		malfunction = true
 		malfunction_combo = 0
 		MusicManager.fade_to(MusicManager.calm)
+
+func check_win():
+	if wave >= TOTAL_WAVES and enemy_count == 0:
+		game_ended.emit(true)
+		
 
 func game_over():
 	game_ended.emit(false)

@@ -148,3 +148,7 @@ func spawn_type(enemy_type, count):
 func _on_time_to_wave_timeout() -> void:
 	spawn_wave()
 	spawn_barrels()
+
+
+func _on_timer_timeout() -> void:
+	GameState.check_win()

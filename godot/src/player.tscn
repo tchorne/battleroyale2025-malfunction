@@ -1,8 +1,9 @@
-[gd_scene load_steps=51 format=3 uid="uid://cw7y606enuklv"]
+[gd_scene load_steps=52 format=3 uid="uid://cw7y606enuklv"]
 
 [ext_resource type="Texture2D" uid="uid://bi5vhlaqigflv" path="res://assets/ignore/doomclone/gun_sprites.png" id="1_8y8w0"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_fof3h"]
 [ext_resource type="AudioStream" uid="uid://b48fyvlmj2al6" path="res://assets/ignore/doomclone/revolver_shot1.wav" id="2_2ncgx"]
+[ext_resource type="PackedScene" uid="uid://3v6ml8x3x3b2" path="res://src/hand.tscn" id="2_hfb3l"]
 [ext_resource type="FontFile" uid="uid://dey1s1t7cy3gy" path="res://assets/fonts/Perfect DOS VGA 437 Win.ttf" id="3_4wo37"]
 [ext_resource type="Script" path="res://src/UI/game_stats.gd" id="3_b6m5u"]
 [ext_resource type="AudioStream" uid="uid://b3gc5to06yl52" path="res://assets/kenney/kenney_interface-sounds/Audio/click_001.ogg" id="5_6rcmb"]
@@ -474,6 +475,30 @@ tracks/2/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ArmPivot/hand:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.279533, 0.0310305, 0.167684)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ArmPivot/hand:quaternion")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Quaternion(-0.478356, 0.608203, -0.437334, -0.458262)]
+}
 
 [sub_resource type="Animation" id="Animation_ngshu"]
 resource_name = "melee"
@@ -531,6 +556,30 @@ tracks/3/keys = {
 "method": &"reload_sound"
 }]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ArmPivot/hand:position")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.766667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.645663, 0.354559, 0.259007), Vector3(0.275855, 0.424983, -0.195144), Vector3(0.177397, 0.216405, -0.882066), Vector3(0.493878, -0.182844, 0.278891)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("ArmPivot/hand:quaternion")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.333333, 0.6, 1.13333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Quaternion(-0.395823, 0.715311, -0.439612, -0.372014), Quaternion(0.458194, -0.629307, 0.356584, 0.516604), Quaternion(0.737605, 0.103905, 0.657543, 0.113051), Quaternion(0.715744, -0.294017, 0.606239, 0.183682)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bylco"]
 _data = {
@@ -567,11 +616,16 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 
 [node name="ArmPivot" type="Node3D" parent="."]
-transform = Transform3D(0.849865, 0.527, 0, -0.527, 0.849865, 0, 0, 0, 1, 0, 1.4582, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0407318, 0.964952, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ArmPivot"]
 transform = Transform3D(0.136148, 0, 0, 0, 0.11101, 0, 0, 0, 0.686883, 0.241766, 0.0548738, 0.428578)
+visible = false
 mesh = SubResource("BoxMesh_njaft")
+
+[node name="hand" parent="ArmPivot" instance=ExtResource("2_hfb3l")]
+transform = Transform3D(-0.00673926, -0.0522441, -0.00767491, -0.00997309, 0.00849709, -0.0535696, 0.053754, -0.00497348, -0.0109011, 0.279533, 0.0310305, 0.167684)
+rotation_edit_mode = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -780,6 +834,7 @@ texture_under = ExtResource("5_qdo2s")
 texture_progress = ExtResource("6_8xf4s")
 
 [node name="Control" type="Control" parent="CanvasLayer/Malfunction/TextureProgressBar"]
+visible = false
 anchors_preset = 0
 offset_left = -1.53845
 offset_top = 250.769

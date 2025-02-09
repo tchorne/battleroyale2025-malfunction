@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://cqpb1djfqt4an"]
+[gd_scene load_steps=19 format=3 uid="uid://cqpb1djfqt4an"]
 
 [ext_resource type="Script" path="res://src/barrel.gd" id="1_0iayo"]
 [ext_resource type="Texture2D" uid="uid://uwe1j7fgd8wg" path="res://assets/custom/barrel.png" id="1_ncnct"]
 [ext_resource type="AudioStream" uid="uid://cxcyeyai4c0e0" path="res://assets/kenney/kenney_impact-sounds/Audio/impactPlate_heavy_004.ogg" id="3_m02xa"]
 [ext_resource type="AudioStream" uid="uid://wyq2ay5oxxt" path="res://assets/ignore/synthetic_explosion_1.wav" id="4_eko5m"]
 [ext_resource type="PackedScene" uid="uid://bbv4tvqw2qjdg" path="res://src/despawner.tscn" id="5_qu3xn"]
+[ext_resource type="PackedScene" uid="uid://b2cf1vd1havxb" path="res://src/spawn_particles.tscn" id="6_e0a4v"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_t3l7p"]
 height = 14.5402
@@ -113,3 +114,5 @@ volume_db = -6.096
 pitch_scale = 1.25
 
 [node name="Despawner" parent="." instance=ExtResource("5_qu3xn")]
+
+[node name="SpawnParticles" parent="." instance=ExtResource("6_e0a4v")]

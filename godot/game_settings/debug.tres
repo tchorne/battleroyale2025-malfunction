@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_tsx4t")
 read_only_properties = PackedStringArray()
-default = true
+default = false
 section = ""
 key = ""
 value_type = 1

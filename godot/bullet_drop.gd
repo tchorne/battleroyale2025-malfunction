@@ -18,12 +18,12 @@ func _ready() -> void:
 	linear_velocity = Vector3(randf()-0.5, 0.3, randf()-0.5).normalized() * LAUNCH
 	GameState.begun_hitstun.connect(store_vel)
 	
-	if GameState.health_drops_remaining > 0:
-		if randf() < GameState.health_drop_chance:
-			GameState.health_drops_remaining -= 1
-			health = true
-			cpu_particles_3d.mesh = HEALTHMESH
-			$MeshInstance3D.set_surface_override_material(0, HEALTHCASE)
+	#if GameState.health_drops_remaining > 0:
+	if randf() < GameState.health_drop_chance:
+		GameState.health_drops_remaining -= 1
+		health = true
+		cpu_particles_3d.mesh = HEALTHMESH
+		$MeshInstance3D.set_surface_override_material(0, HEALTHCASE)
 	
 	
 func store_vel():
