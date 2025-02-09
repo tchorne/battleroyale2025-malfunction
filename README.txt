@@ -24,3 +24,11 @@ Music:
  - (Also synthesized in a different sound font)
 
 Various sound effects by Kenney (kenney.nl)
+
+Disclosure of code from previously mentioned Godot Doom tutorial:
+ - Some enemy movement code (enemy.gd 100:110)
+ - Enemy melee attack player (enemy.gd 182:192)
+ - Camera control code (player.gd 75:78)
+ - Input action switch (player.gd 112:123)
+ - Raycast for enemy with duck typing (player.gd 188:191)
+Any other code which is from the tutorial is either just declaring constants or is only 1-2 lines and too generic for me to distinguish originality.
