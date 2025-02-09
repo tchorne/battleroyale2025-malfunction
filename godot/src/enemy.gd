@@ -97,6 +97,7 @@ func _physics_process(delta: float) -> void:
 	if player == null:
 		return
 	
+	# This section is from tutorial but direct towards player movement has been replaced with pathfinding
 	var next_point = navigation_agent_3d.get_next_path_position()
 	var dir = navigation_agent_3d.get_next_path_position() - global_position
 	dir.y = 0.0
@@ -106,6 +107,7 @@ func _physics_process(delta: float) -> void:
 	velocity.z = (dir * get_speed()).z
 	velocity.y -= 9.8* delta
 	move_and_slide()
+	# --------------------------------------------------------------------------
 	
 	#global_position.y = 0
 	
@@ -177,6 +179,7 @@ func pathfind_away(dist):
 
 func attempt_to_kill_player():
 	if type != TYPE_MELEE and type != TYPE_SPECTRE: return
+	# From doom tutorial ----------------------------------------
 	var dist_to_player = global_position.distance_to(player.global_position)
 	if dist_to_player > attack_range:
 		return
@@ -186,6 +189,7 @@ func attempt_to_kill_player():
 	var result = get_world_3d().direct_space_state.intersect_ray(query)
 	if result.is_empty():
 		player.onhit()
+	# -----------------------------------------------------------
 		
 	
 

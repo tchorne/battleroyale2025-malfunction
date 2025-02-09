@@ -46,9 +46,10 @@ var tutorial_step := 0
 
 @onready var mytree = get_tree()
 func _ready():
-	
+	# From doom tutorial -----------------
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	animated_sprite_2d.animation_finished.connect(anim_finished)
+	# -------------------------------------
 	GameState.combo_increased.connect(combo_up)
 	GameState.game_ended.connect(_on_game_ended)
 	#weapon_anim.animation_finished.connect()
@@ -71,9 +72,10 @@ func anim_finished():
 func _input(event: InputEvent) -> void:
 	if dead or GameState.hitstun:
 		return
+	# This camera movement code is from doom tutorial (minus the lerp)
 	if event is InputEventMouseMotion:
 		rotation_degrees.y -= event.relative.x * lerp(MIN_SENS, MAX_SENS, Settings.sensitivity*Settings.sensitivity)
-		
+	# -------------------------------------------------------
 
 func _process(delta: float) -> void:
 	
@@ -107,6 +109,7 @@ func _process(delta: float) -> void:
 	camera_3d.position.y = sin(bob_t * BOB_FREQ) * BOB_MAGNITUDE
 
 func process_inputs(_delta):
+	# This section is roughly the same as the tutorial -------
 	if dead: return
 		
 	if Input.is_action_just_pressed("restart"):
@@ -117,6 +120,7 @@ func process_inputs(_delta):
 		shoot()
 	if Input.is_action_just_pressed("melee"):
 		melee()
+	# ---------------------------------------------------------
 	
 
 func _physics_process(delta: float) -> void:
@@ -125,6 +129,7 @@ func _physics_process(delta: float) -> void:
 	if dead:
 		return
 	
+	# Movement code from CharacterBody3D template in Godot
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forwards", "move_backwards")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if not direction.is_zero_approx() and tutorial_step == 0:
@@ -179,8 +184,11 @@ func shoot():
 	animated_sprite_2d.play("shoot")
 	if GameState.malfunction: shoot_sound_2.play()
 	else: shoot_sound.play()
+	
+	# From tutorial ------------
 	if ray_cast_3d.is_colliding() and ray_cast_3d.get_collider().has_method("onhit"):
 		ray_cast_3d.get_collider().call("onhit")
+		# ----------------------
 		GameState.begin_hitstun(0.05)
 
 func melee():
